@@ -17,10 +17,43 @@ export default function About() {
 
   // Effet de transition de scroll avec recouvrement
   useEffect(() => {
-    const section = sectionRef.current;
-    const whyWorkSection = document.getElementById('why-work-with-me');
+    // Attendre que le DOM soit complètement chargé et rendu
+    // En production, il peut y avoir un délai avant que les sections soient complètement rendues
+    const initScrollTrigger = () => {
+      const section = sectionRef.current;
+      const whyWorkSection = document.getElementById('why-work-with-me');
+      
+      if (!section || !whyWorkSection) {
+        // Si les sections ne sont pas trouvées, réessayer après un court délai
+        setTimeout(initScrollTrigger, 100);
+        return;
+      }
+      
+      // Vérifier que WhyWorkWithMe est bien rendu avec son background
+      // En production, le CSS peut ne pas être appliqué immédiatement
+      const whyWorkRect = whyWorkSection.getBoundingClientRect();
+      const computedStyle = window.getComputedStyle(whyWorkSection);
+      const backgroundColor = computedStyle.backgroundColor;
+      
+      // Si la section n'a pas de hauteur ou de background, attendre encore
+      // Vérifier aussi que la section a une hauteur minimale (au moins 100px)
+      if (whyWorkRect.height < 100) {
+        setTimeout(initScrollTrigger, 100);
+        return;
+      }
+      
+      // S'assurer que WhyWorkWithMe a bien son background-color appliqué
+      // Forcer le background si nécessaire pour éviter l'apparition d'une section vide
+      if (!whyWorkSection.style.backgroundColor) {
+        whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
+      }
+      
+      // Continuer avec l'initialisation du ScrollTrigger
+      setupScrollTrigger(section, whyWorkSection);
+    };
     
-    if (!section || !whyWorkSection) return;
+    // Fonction pour configurer le ScrollTrigger
+    const setupScrollTrigger = (section: HTMLElement, whyWorkSection: HTMLElement) => {
 
     // Obtenir la hauteur initiale de la section About pour créer un spacer
     // Utiliser getBoundingClientRect pour obtenir la hauteur réelle
@@ -257,6 +290,20 @@ export default function About() {
         console.warn('Erreur lors du nettoyage About:', error);
       }
     };
+    
+    // Démarrer l'initialisation après un court délai pour s'assurer que le DOM est prêt
+    // En production, attendre que les styles CSS soient chargés
+    if (typeof window !== 'undefined') {
+      // Attendre que le document soit complètement chargé
+      if (document.readyState === 'complete') {
+        // Petit délai pour laisser le temps aux styles CSS de se charger
+        setTimeout(initScrollTrigger, 200);
+      } else {
+        window.addEventListener('load', () => {
+          setTimeout(initScrollTrigger, 200);
+        });
+      }
+    }
   }, []);
 
   const cards = [
