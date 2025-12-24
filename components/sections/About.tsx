@@ -78,6 +78,13 @@ export default function About() {
         anticipatePin: 1,
         invalidateOnRefresh: true,
         markers: false, // Désactiver les markers en production
+        onToggle: (self) => {
+          // S'assurer que WhyWorkWithMe a bien son background quand le pin est actif/inactif
+          if (self.isActive) {
+            // Pin actif - s'assurer que le background est visible
+            whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
+          }
+        },
         onEnter: () => {
           // Quand on entre dans la zone de transition
           // Utiliser requestAnimationFrame pour éviter les reflows
@@ -112,72 +119,89 @@ export default function About() {
           // Quand on sort de la zone de transition, About reste visible et continue dans le flux
           // Le pin de WhyWorkWithMe est libéré, donc About doit être réintégrée correctement
           
-          // Utiliser un double requestAnimationFrame pour s'assurer que le pin est bien libéré
+          // S'assurer que WhyWorkWithMe a bien son background après le pin
+          whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
+          
+          // Utiliser un triple requestAnimationFrame pour s'assurer que le pin est bien libéré en production
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-              // Mettre à jour la hauteur du spacer avec la hauteur réelle
-              const currentHeight = getSectionHeight();
-              if (currentHeight > 0) {
-                spacer.style.height = `${currentHeight}px`;
-              }
-              
-              // IMPORTANT : S'assurer que About est toujours dans le DOM
-              // Si elle n'est pas dans le parent, la réinsérer juste après le spacer
-              if (!section.parentNode && spacer.parentNode) {
-                // Réinsérer About juste après le spacer
-                if (spacer.nextSibling) {
+              requestAnimationFrame(() => {
+                // Mettre à jour la hauteur du spacer avec la hauteur réelle
+                const currentHeight = getSectionHeight();
+                if (currentHeight > 0) {
+                  spacer.style.height = `${currentHeight}px`;
+                }
+                
+                // IMPORTANT : S'assurer que About est toujours dans le DOM
+                // Si elle n'est pas dans le parent, la réinsérer juste après le spacer
+                if (!section.parentNode && spacer.parentNode) {
+                  // Réinsérer About juste après le spacer
+                  if (spacer.nextSibling) {
+                    spacer.parentNode.insertBefore(section, spacer.nextSibling);
+                  } else {
+                    spacer.parentNode.appendChild(section);
+                  }
+                }
+                
+                // S'assurer que la section est bien positionnée après le spacer
+                // En production, il peut y avoir un délai, donc forcer la position
+                if (section.parentNode && spacer.parentNode && section.previousSibling !== spacer) {
+                  // Si About n'est pas juste après le spacer, la réinsérer
                   spacer.parentNode.insertBefore(section, spacer.nextSibling);
-                } else {
-                  spacer.parentNode.appendChild(section);
                 }
-              }
-              
-              // S'assurer que la section est bien positionnée après le spacer
-              // En production, il peut y avoir un délai, donc forcer la position
-              if (section.parentNode && spacer.parentNode && section.previousSibling !== spacer) {
-                // Si About n'est pas juste après le spacer, la réinsérer
-                spacer.parentNode.insertBefore(section, spacer.nextSibling);
-              }
-              
-              // Réintégrer About dans le flux de manière fluide
-              // Utiliser immediateRender et forcer tous les styles
-              gsap.set(section, {
-                position: 'relative',
-                top: 'auto',
-                left: 'auto',
-                right: 'auto',
-                width: 'auto',
-                y: '0%',
-                zIndex: 10,
-                clearProps: 'top,transform,willChange',
-                immediateRender: true,
+                
+                // Réintégrer About dans le flux de manière fluide
+                // Utiliser immediateRender et forcer tous les styles
+                gsap.set(section, {
+                  position: 'relative',
+                  top: 'auto',
+                  left: 'auto',
+                  right: 'auto',
+                  width: 'auto',
+                  y: '0%',
+                  zIndex: 10,
+                  clearProps: 'top,transform,willChange',
+                  immediateRender: true,
+                });
+                
+                // Forcer TOUS les styles via le style inline avec !important
+                // C'est crucial pour garantir qu'About reste visible en production
+                section.style.cssText = `
+                  position: relative !important;
+                  z-index: 10 !important;
+                  visibility: visible !important;
+                  opacity: 1 !important;
+                  display: block !important;
+                  top: auto !important;
+                  left: auto !important;
+                  right: auto !important;
+                  width: 100% !important;
+                  transform: none !important;
+                `;
+                
+                // S'assurer que WhyWorkWithMe n'a pas de styles de pin résiduels
+                whyWorkSection.style.position = '';
+                whyWorkSection.style.top = '';
+                whyWorkSection.style.left = '';
+                whyWorkSection.style.width = '';
+                whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
+                
+                // Forcer un refresh de ScrollTrigger de manière asynchrone pour éviter les reflows
+                // En production, utiliser un délai plus long pour s'assurer que tout est prêt
+                setTimeout(() => {
+                  ScrollTrigger.refresh();
+                  // Vérifier une dernière fois que la section est visible
+                  if (section.style.display === 'none' || section.style.visibility === 'hidden') {
+                    section.style.display = 'block';
+                    section.style.visibility = 'visible';
+                  }
+                  // Vérifier que WhyWorkWithMe a bien son background
+                  const computedBg = window.getComputedStyle(whyWorkSection).backgroundColor;
+                  if (!computedBg || computedBg === 'rgba(0, 0, 0, 0)' || computedBg === 'transparent') {
+                    whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
+                  }
+                }, 100);
               });
-              
-              // Forcer TOUS les styles via le style inline avec !important
-              // C'est crucial pour garantir qu'About reste visible en production
-              section.style.cssText = `
-                position: relative !important;
-                z-index: 10 !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                display: block !important;
-                top: auto !important;
-                left: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                transform: none !important;
-              `;
-              
-              // Forcer un refresh de ScrollTrigger de manière asynchrone pour éviter les reflows
-              // En production, utiliser un délai plus long pour s'assurer que tout est prêt
-              setTimeout(() => {
-                ScrollTrigger.refresh();
-                // Vérifier une dernière fois que la section est visible
-                if (section.style.display === 'none' || section.style.visibility === 'hidden') {
-                  section.style.display = 'block';
-                  section.style.visibility = 'visible';
-                }
-              }, 50);
             });
           });
         },
