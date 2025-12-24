@@ -17,43 +17,10 @@ export default function About() {
 
   // Effet de transition de scroll avec recouvrement
   useEffect(() => {
-    // Attendre que le DOM soit complètement chargé et rendu
-    // En production, il peut y avoir un délai avant que les sections soient complètement rendues
-    const initScrollTrigger = () => {
-      const section = sectionRef.current;
-      const whyWorkSection = document.getElementById('why-work-with-me');
-      
-      if (!section || !whyWorkSection) {
-        // Si les sections ne sont pas trouvées, réessayer après un court délai
-        setTimeout(initScrollTrigger, 100);
-        return;
-      }
-      
-      // Vérifier que WhyWorkWithMe est bien rendu avec son background
-      // En production, le CSS peut ne pas être appliqué immédiatement
-      const whyWorkRect = whyWorkSection.getBoundingClientRect();
-      const computedStyle = window.getComputedStyle(whyWorkSection);
-      const backgroundColor = computedStyle.backgroundColor;
-      
-      // Si la section n'a pas de hauteur ou de background, attendre encore
-      // Vérifier aussi que la section a une hauteur minimale (au moins 100px)
-      if (whyWorkRect.height < 100) {
-        setTimeout(initScrollTrigger, 100);
-        return;
-      }
-      
-      // S'assurer que WhyWorkWithMe a bien son background-color appliqué
-      // Forcer le background si nécessaire pour éviter l'apparition d'une section vide
-      if (!whyWorkSection.style.backgroundColor) {
-        whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
-      }
-      
-      // Continuer avec l'initialisation du ScrollTrigger
-      setupScrollTrigger(section, whyWorkSection);
-    };
+    const section = sectionRef.current;
+    const whyWorkSection = document.getElementById('why-work-with-me');
     
-    // Fonction pour configurer le ScrollTrigger
-    const setupScrollTrigger = (section: HTMLElement, whyWorkSection: HTMLElement) => {
+    if (!section || !whyWorkSection) return;
 
     // Obtenir la hauteur initiale de la section About pour créer un spacer
     // Utiliser getBoundingClientRect pour obtenir la hauteur réelle
@@ -145,57 +112,73 @@ export default function About() {
           // Quand on sort de la zone de transition, About reste visible et continue dans le flux
           // Le pin de WhyWorkWithMe est libéré, donc About doit être réintégrée correctement
           
-          // Utiliser un seul requestAnimationFrame pour améliorer la fluidité
+          // Utiliser un double requestAnimationFrame pour s'assurer que le pin est bien libéré
           requestAnimationFrame(() => {
-            // Mettre à jour la hauteur du spacer avec la hauteur réelle
-            const currentHeight = getSectionHeight();
-            if (currentHeight > 0) {
-              spacer.style.height = `${currentHeight}px`;
-            }
-            
-            // IMPORTANT : S'assurer que About est toujours dans le DOM
-            // Si elle n'est pas dans le parent, la réinsérer juste après le spacer
-            if (!section.parentNode && spacer.parentNode) {
-              // Réinsérer About juste après le spacer
-              if (spacer.nextSibling) {
-                spacer.parentNode.insertBefore(section, spacer.nextSibling);
-              } else {
-                spacer.parentNode.appendChild(section);
+            requestAnimationFrame(() => {
+              // Mettre à jour la hauteur du spacer avec la hauteur réelle
+              const currentHeight = getSectionHeight();
+              if (currentHeight > 0) {
+                spacer.style.height = `${currentHeight}px`;
               }
-            }
-            
-            // Réintégrer About dans le flux de manière fluide
-            // Utiliser immediateRender et forcer tous les styles
-            gsap.set(section, {
-              position: 'relative',
-              top: 'auto',
-              left: 'auto',
-              right: 'auto',
-              width: 'auto',
-              y: '0%',
-              zIndex: 10,
-              clearProps: 'top,transform,willChange',
-              immediateRender: true,
+              
+              // IMPORTANT : S'assurer que About est toujours dans le DOM
+              // Si elle n'est pas dans le parent, la réinsérer juste après le spacer
+              if (!section.parentNode && spacer.parentNode) {
+                // Réinsérer About juste après le spacer
+                if (spacer.nextSibling) {
+                  spacer.parentNode.insertBefore(section, spacer.nextSibling);
+                } else {
+                  spacer.parentNode.appendChild(section);
+                }
+              }
+              
+              // S'assurer que la section est bien positionnée après le spacer
+              // En production, il peut y avoir un délai, donc forcer la position
+              if (section.parentNode && spacer.parentNode && section.previousSibling !== spacer) {
+                // Si About n'est pas juste après le spacer, la réinsérer
+                spacer.parentNode.insertBefore(section, spacer.nextSibling);
+              }
+              
+              // Réintégrer About dans le flux de manière fluide
+              // Utiliser immediateRender et forcer tous les styles
+              gsap.set(section, {
+                position: 'relative',
+                top: 'auto',
+                left: 'auto',
+                right: 'auto',
+                width: 'auto',
+                y: '0%',
+                zIndex: 10,
+                clearProps: 'top,transform,willChange',
+                immediateRender: true,
+              });
+              
+              // Forcer TOUS les styles via le style inline avec !important
+              // C'est crucial pour garantir qu'About reste visible en production
+              section.style.cssText = `
+                position: relative !important;
+                z-index: 10 !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                display: block !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                width: 100% !important;
+                transform: none !important;
+              `;
+              
+              // Forcer un refresh de ScrollTrigger de manière asynchrone pour éviter les reflows
+              // En production, utiliser un délai plus long pour s'assurer que tout est prêt
+              setTimeout(() => {
+                ScrollTrigger.refresh();
+                // Vérifier une dernière fois que la section est visible
+                if (section.style.display === 'none' || section.style.visibility === 'hidden') {
+                  section.style.display = 'block';
+                  section.style.visibility = 'visible';
+                }
+              }, 50);
             });
-            
-            // Forcer TOUS les styles via le style inline avec !important
-            // C'est crucial pour garantir qu'About reste visible
-            section.style.cssText += `
-              position: relative !important;
-              z-index: 10 !important;
-              visibility: visible !important;
-              opacity: 1 !important;
-              display: block !important;
-              top: auto !important;
-              left: auto !important;
-              right: auto !important;
-              width: auto !important;
-            `;
-            
-            // Forcer un refresh de ScrollTrigger de manière asynchrone pour éviter les reflows
-            setTimeout(() => {
-              ScrollTrigger.refresh();
-            }, 0);
           });
         },
         onEnterBack: () => {
@@ -275,7 +258,6 @@ export default function About() {
 
     window.addEventListener('resize', handleResize);
 
-    // Retourner la fonction de nettoyage
     return () => {
       clearTimeout(resizeTimeout);
       window.removeEventListener('resize', handleResize);
@@ -290,26 +272,6 @@ export default function About() {
         // Ignorer les erreurs si l'élément n'existe plus
         console.warn('Erreur lors du nettoyage About:', error);
       }
-    };
-    }; // Fermer setupScrollTrigger
-    
-    // Démarrer l'initialisation après un court délai pour s'assurer que le DOM est prêt
-    // En production, attendre que les styles CSS soient chargés
-    if (typeof window !== 'undefined') {
-      // Attendre que le document soit complètement chargé
-      if (document.readyState === 'complete') {
-        // Petit délai pour laisser le temps aux styles CSS de se charger
-        setTimeout(initScrollTrigger, 200);
-      } else {
-        window.addEventListener('load', () => {
-          setTimeout(initScrollTrigger, 200);
-        });
-      }
-    }
-    
-    // Retourner une fonction de nettoyage vide pour le useEffect
-    return () => {
-      // Le nettoyage est géré par setupScrollTrigger
     };
   }, []);
 
