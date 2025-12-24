@@ -275,6 +275,7 @@ export default function About() {
 
     window.addEventListener('resize', handleResize);
 
+    // Retourner la fonction de nettoyage
     return () => {
       clearTimeout(resizeTimeout);
       window.removeEventListener('resize', handleResize);
@@ -290,6 +291,7 @@ export default function About() {
         console.warn('Erreur lors du nettoyage About:', error);
       }
     };
+    }; // Fermer setupScrollTrigger
     
     // Démarrer l'initialisation après un court délai pour s'assurer que le DOM est prêt
     // En production, attendre que les styles CSS soient chargés
@@ -304,6 +306,11 @@ export default function About() {
         });
       }
     }
+    
+    // Retourner une fonction de nettoyage vide pour le useEffect
+    return () => {
+      // Le nettoyage est géré par setupScrollTrigger
+    };
   }, []);
 
   const cards = [
