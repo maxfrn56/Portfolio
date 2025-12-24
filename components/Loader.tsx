@@ -74,7 +74,7 @@ export default function Loader() {
               ease: [0.25, 0.1, 0.25, 1], // Easing organique
             },
           }}
-          className="fixed inset-0 z-[9999] bg-accent-blue flex items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-ocean-deep flex items-center justify-center"
           style={{
             // Empêcher le scroll pendant le chargement
             overflow: 'hidden',
@@ -123,7 +123,7 @@ export default function Loader() {
                 // Empêcher le drag d'image
                 pointerEvents: 'none',
                 // Optimisation de rendu
-                imageRendering: 'high-quality',
+                imageRendering: 'auto',
                 willChange: 'opacity, transform, filter',
               }}
             />

@@ -276,8 +276,8 @@ export default function Hero() {
               Maxime Farineau
             </h1>
             <img 
-              src="/images/logo-blue.png" 
-              alt="Logo" 
+              src="/images/logo-white.png" 
+              alt="Logo Maxime Farineau - Développeur Web" 
               className="h-[120px] w-auto"
             />
           </div>

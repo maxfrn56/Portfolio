@@ -143,8 +143,8 @@ export default function Navbar() {
             whileTap={{ scale: 0.95 }}
           >
             <img 
-              src="/images/logo-black.png" 
-              alt="Logo" 
+              src="/images/logo-white.png" 
+              alt="Logo Maxime Farineau - Développeur Web Freelance" 
               className="h-12 md:h-16 w-auto"
             />
           </motion.button>
