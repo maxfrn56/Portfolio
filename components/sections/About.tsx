@@ -48,14 +48,28 @@ export default function About() {
       width: 100%;
     `;
     
-    // Insérer le spacer juste après WhyWorkWithMe
+    // IMPORTANT : Insérer le spacer juste après WhyWorkWithMe, AVANT About
     // Cela garantit que l'espace est maintenu même quand About est en fixed
     if (whyWorkSection.parentNode) {
+      // Trouver la position de About dans le DOM
+      const aboutIndex = Array.from(whyWorkSection.parentNode.children).indexOf(section);
+      const whyWorkIndex = Array.from(whyWorkSection.parentNode.children).indexOf(whyWorkSection);
+      
       // Insérer le spacer juste après WhyWorkWithMe
       if (whyWorkSection.nextSibling) {
         whyWorkSection.parentNode.insertBefore(spacer, whyWorkSection.nextSibling);
       } else {
         whyWorkSection.parentNode.appendChild(spacer);
+      }
+      
+      // S'assurer que About est bien positionnée après le spacer
+      if (section.parentNode && spacer.parentNode && section.previousSibling !== spacer) {
+        // Si About n'est pas juste après le spacer, la réinsérer
+        if (spacer.nextSibling) {
+          spacer.parentNode.insertBefore(section, spacer.nextSibling);
+        } else {
+          spacer.parentNode.appendChild(section);
+        }
       }
     }
 
@@ -78,13 +92,6 @@ export default function About() {
         anticipatePin: 1,
         invalidateOnRefresh: true,
         markers: false, // Désactiver les markers en production
-        onToggle: (self) => {
-          // S'assurer que WhyWorkWithMe a bien son background quand le pin est actif/inactif
-          if (self.isActive) {
-            // Pin actif - s'assurer que le background est visible
-            whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
-          }
-        },
         onEnter: () => {
           // Quand on entre dans la zone de transition
           // Utiliser requestAnimationFrame pour éviter les reflows
@@ -119,105 +126,76 @@ export default function About() {
           // Quand on sort de la zone de transition, About reste visible et continue dans le flux
           // Le pin de WhyWorkWithMe est libéré, donc About doit être réintégrée correctement
           
-          // S'assurer que WhyWorkWithMe a bien son background après le pin
-          whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
-          
-          // Utiliser un délai pour s'assurer que le pin est complètement libéré
-          setTimeout(() => {
-            // Mettre à jour la hauteur du spacer avec la hauteur réelle
-            const currentHeight = getSectionHeight();
-            if (currentHeight > 0) {
-              spacer.style.height = `${currentHeight}px`;
-            }
-            
-            // IMPORTANT : S'assurer que About est toujours dans le DOM et visible
-            // Si elle n'est pas dans le parent, la réinsérer juste après le spacer
-            if (!section.parentNode) {
-              // Trouver où insérer About - après le spacer ou après WhyWorkWithMe
-              const insertAfter = spacer.parentNode ? spacer : whyWorkSection;
-              if (insertAfter.parentNode) {
-                if (insertAfter.nextSibling) {
-                  insertAfter.parentNode.insertBefore(section, insertAfter.nextSibling);
-                } else {
-                  insertAfter.parentNode.appendChild(section);
-                }
+          // Utiliser requestAnimationFrame pour s'assurer que le pin est libéré
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              // Mettre à jour la hauteur du spacer avec la hauteur réelle
+              const currentHeight = getSectionHeight();
+              if (currentHeight > 0) {
+                spacer.style.height = `${currentHeight}px`;
               }
-            }
-            
-            // S'assurer que la section est bien positionnée après le spacer
-            // En production, il peut y avoir un délai, donc forcer la position
-            if (section.parentNode && spacer.parentNode && section.previousSibling !== spacer) {
-              // Si About n'est pas juste après le spacer, la réinsérer
-              if (spacer.nextSibling) {
-                spacer.parentNode.insertBefore(section, spacer.nextSibling);
-              } else {
-                spacer.parentNode.appendChild(section);
-              }
-            }
-            
-            // Réintégrer About dans le flux de manière fluide
-            // Utiliser immediateRender et forcer tous les styles
-            gsap.set(section, {
-              position: 'relative',
-              top: 'auto',
-              left: 'auto',
-              right: 'auto',
-              width: 'auto',
-              y: '0%',
-              zIndex: 10,
-              clearProps: 'all',
-              immediateRender: true,
-            });
-            
-            // Forcer TOUS les styles via le style inline avec !important
-            // C'est crucial pour garantir qu'About reste visible en production
-            section.style.cssText = `
-              position: relative !important;
-              z-index: 10 !important;
-              visibility: visible !important;
-              opacity: 1 !important;
-              display: block !important;
-              top: auto !important;
-              left: auto !important;
-              right: auto !important;
-              width: 100% !important;
-              transform: none !important;
-            `;
-            
-            // S'assurer que WhyWorkWithMe n'a pas de styles de pin résiduels
-            whyWorkSection.style.position = '';
-            whyWorkSection.style.top = '';
-            whyWorkSection.style.left = '';
-            whyWorkSection.style.width = '';
-            whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
-            
-            // Forcer un refresh de ScrollTrigger
-            ScrollTrigger.refresh();
-            
-            // Vérification finale après un court délai
-            setTimeout(() => {
-              // Vérifier une dernière fois que la section est visible
-              if (!section.parentNode || section.style.display === 'none' || section.style.visibility === 'hidden') {
-                // Réinsérer About si elle n'est pas dans le DOM
-                if (!section.parentNode && spacer.parentNode) {
+              
+              // IMPORTANT : S'assurer que About est toujours dans le DOM et au bon endroit
+              // Si elle n'est pas dans le parent, la réinsérer juste après le spacer
+              if (!section.parentNode) {
+                // Réinsérer About juste après le spacer
+                if (spacer.parentNode) {
                   if (spacer.nextSibling) {
                     spacer.parentNode.insertBefore(section, spacer.nextSibling);
                   } else {
                     spacer.parentNode.appendChild(section);
                   }
                 }
-                section.style.display = 'block';
-                section.style.visibility = 'visible';
-                section.style.opacity = '1';
+              } else if (section.parentNode && spacer.parentNode) {
+                // Vérifier que About est bien positionnée juste après le spacer
+                if (section.previousSibling !== spacer) {
+                  // Si About n'est pas juste après le spacer, la réinsérer
+                  if (spacer.nextSibling) {
+                    spacer.parentNode.insertBefore(section, spacer.nextSibling);
+                  } else {
+                    spacer.parentNode.appendChild(section);
+                  }
+                }
               }
-              // Vérifier que WhyWorkWithMe a bien son background
-              const computedBg = window.getComputedStyle(whyWorkSection).backgroundColor;
-              if (!computedBg || computedBg === 'rgba(0, 0, 0, 0)' || computedBg === 'transparent') {
-                whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
-              }
-              ScrollTrigger.refresh();
-            }, 50);
-          }, 50);
+              
+              // Réintégrer About dans le flux de manière fluide
+              gsap.set(section, {
+                position: 'relative',
+                top: 'auto',
+                left: 'auto',
+                right: 'auto',
+                width: 'auto',
+                y: '0%',
+                zIndex: 10,
+                clearProps: 'all',
+                immediateRender: true,
+              });
+              
+              // Forcer les styles pour garantir la visibilité
+              section.style.position = 'relative';
+              section.style.zIndex = '10';
+              section.style.visibility = 'visible';
+              section.style.opacity = '1';
+              section.style.display = 'block';
+              section.style.top = 'auto';
+              section.style.left = 'auto';
+              section.style.right = 'auto';
+              section.style.width = '100%';
+              section.style.transform = 'none';
+              
+              // S'assurer que WhyWorkWithMe a bien son background et nettoyer les styles de pin
+              whyWorkSection.style.position = '';
+              whyWorkSection.style.top = '';
+              whyWorkSection.style.left = '';
+              whyWorkSection.style.width = '';
+              whyWorkSection.style.backgroundColor = 'rgb(10, 26, 47)'; // ocean-deep
+              
+              // Refresh ScrollTrigger après un court délai
+              setTimeout(() => {
+                ScrollTrigger.refresh();
+              }, 0);
+            });
+          });
         },
         onEnterBack: () => {
           // Quand on revient en arrière dans la zone de transition
