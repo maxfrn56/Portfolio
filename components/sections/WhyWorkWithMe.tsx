@@ -51,18 +51,18 @@ const benefits = [
 ];
 
 const skills = [
-  { name: 'React', category: 'Frontend' },
-  { name: 'Next.js', category: 'Frontend' },
-  { name: 'Node.js', category: 'Backend' },
-  { name: 'Express', category: 'Backend' },
-  { name: 'MySQL', category: 'Database' },
-  { name: 'PostgreSQL', category: 'Database' },
-  { name: 'GitHub', category: 'Tools' },
-  { name: 'API REST', category: 'Backend' },
-  { name: 'WebSockets', category: 'Backend' },
-  { name: 'Stripe', category: 'Payment' },
-  { name: 'Webflow', category: 'No-Code' },
-  { name: 'Shopify', category: 'E-commerce' },
+  { name: 'React', category: 'Frontend', url: 'https://fr.react.dev/' },
+  { name: 'Next.js', category: 'Frontend', url: 'https://nextjs.org/' },
+  { name: 'Node.js', category: 'Backend', url: 'https://nodejs.org/en' },
+  { name: 'Express', category: 'Backend', url: 'https://expressjs.com/' },
+  { name: 'MySQL', category: 'Database', url: 'https://www.mysql.com/fr/' },
+  { name: 'PostgreSQL', category: 'Database', url: 'https://www.postgresql.org/' },
+  { name: 'GitHub', category: 'Tools', url: 'https://github.com/' },
+  { name: 'API REST', category: 'Backend', url: 'https://restfulapi.net/' },
+  { name: 'WebSockets', category: 'Backend', url: 'https://developer.mozilla.org/fr/docs/Web/API/WebSockets_API' },
+  { name: 'Stripe', category: 'Payment', url: 'https://stripe.com/fr' },
+  { name: 'Webflow', category: 'No-Code', url: 'https://webflow.com/' },
+  { name: 'Shopify', category: 'E-commerce', url: 'https://www.shopify.com/fr' },
 ];
 
 export default function WhyWorkWithMe() {
@@ -318,9 +318,12 @@ function SkillsCarousel() {
         {duplicatedSkills.map((skill, index) => {
           const isEven = index % 2 === 0;
           return (
-            <div
+            <a
               key={`${skill.name}-${index}`}
-              className="flex-shrink-0 relative group overflow-hidden rounded-xl"
+              href={skill.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 relative group overflow-hidden rounded-xl block"
               style={{ width: '180px' }}
             >
               <div className="relative bg-ocean-blue/20 backdrop-blur-sm rounded-xl p-4 border-2 border-accent-blue/20 hover:border-accent-blue/40 transition-all duration-300 cursor-pointer overflow-hidden">
@@ -340,7 +343,7 @@ function SkillsCarousel() {
                   </p>
                 </div>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>

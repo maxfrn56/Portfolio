@@ -102,7 +102,7 @@ export default function Loader() {
             }}
           >
             <motion.img
-              src="/images/logo-black.png"
+              src="/images/logo-white.png"
               alt="Maxime Farineau"
               className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80"
               animate={shouldHide ? {
