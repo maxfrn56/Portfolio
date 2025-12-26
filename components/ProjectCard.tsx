@@ -52,10 +52,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       whileHover={{ y: -10 }}
-      className="relative group overflow-hidden rounded-2xl bg-ocean-blue/20 backdrop-blur-sm border border-accent-blue/20 cursor-pointer h-full flex flex-col min-h-[600px]"
+      className="relative group overflow-hidden rounded-xl md:rounded-2xl bg-ocean-blue/20 backdrop-blur-sm border border-accent-blue/20 cursor-pointer h-full flex flex-col min-h-[450px] md:min-h-[600px]"
     >
       {/* Vidéo, Image ou Placeholder */}
-      <div className="relative w-full h-64 overflow-hidden flex items-center justify-center">
+      <div className="relative w-full h-48 md:h-64 overflow-hidden flex items-center justify-center">
         {project.video ? (
           <>
             <video
@@ -98,18 +98,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Contenu */}
-      <div className="p-6 flex flex-col flex-1">
-        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-accent-blue transition-colors">
+      <div className="p-4 md:p-6 flex flex-col flex-1">
+        <h3 className="text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-accent-blue transition-colors">
           {project.title}
         </h3>
-        <p className="text-sand/80 mb-4 leading-relaxed flex-1">{project.description}</p>
+        <p className="text-sm md:text-base text-sand/80 mb-3 md:mb-4 leading-relaxed flex-1">{project.description}</p>
         
         {/* Stack */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
           {project.stack.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 bg-accent-blue/20 text-accent-blue text-sm rounded-full border border-accent-blue/30"
+              className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/20 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/30"
             >
               {tech}
             </span>

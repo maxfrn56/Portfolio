@@ -17,16 +17,19 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
   font-family: var(--font-inter);
-  background: linear-gradient(135deg, #2c1810 0%, #3d2415 25%, #4a2e1a 50%, #3d2415 75%, #2c1810 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: #1a2e3a; /* ocean-deep - bleu au lieu d'orange/sable */
   color: #f4e4bc;
   overflow-x: hidden;
   position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Empêcher le scroll pendant le chargement initial */

@@ -101,7 +101,7 @@ export default function RootLayout({
         <ScrollToTop />
         <CustomCursor />
         <Navbar />
-        <main className="relative">
+        <main className="relative overflow-x-hidden w-full max-w-full">
           {children}
         </main>
         <Footer />

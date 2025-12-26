@@ -39,7 +39,7 @@ export default function About() {
     <section 
       id="about" 
       ref={sectionRef}
-      className="relative bg-ocean-deep section-fullscreen py-20 px-6 retro-distort"
+      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-4 md:px-6 retro-distort"
       style={{ 
         zIndex: 10,
         contain: 'layout style paint', // Optimisation pour isoler les repaints
@@ -48,12 +48,12 @@ export default function About() {
     >
       <div ref={containerRef} className="max-w-6xl mx-auto relative">
         {/* Slogan défilant horizontalement - au-dessus des carrés */}
-        <div className="absolute left-1/2 -translate-x-1/2 w-screen -top-8 md:-top-12 lg:-top-16">
+        <div className="absolute left-1/2 -translate-x-1/2 w-screen -top-4 md:-top-12 lg:-top-16 overflow-hidden" style={{ maxWidth: '100vw' }}>
           <SloganCarousel />
         </div>
         
         {/* Grille 2x2 avec photo centrée */}
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 z-10 mt-8">
+        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 z-10 mt-4 md:mt-8">
           {cards.map((card, index) => {
             // Position du cercle pour shape-outside selon la position de la carte
             // La photo fait environ 256px (w-64) au centre, donc 128px de rayon
@@ -99,7 +99,7 @@ export default function About() {
                 className="relative group"
               >
                 {/* Carte */}
-                <div className="bg-ocean-blue/40 backdrop-blur-sm rounded-2xl p-6 md:p-8 border-4 border-accent-blue/30 relative overflow-hidden retro-card h-[280px] md:h-[320px] shadow-[0_0_20px_rgba(90,143,163,0.2)]">
+                <div className="bg-ocean-blue/40 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-8 border-2 md:border-4 border-accent-blue/30 relative overflow-hidden retro-card min-h-[180px] h-auto md:h-[320px] shadow-[0_0_20px_rgba(90,143,163,0.2)]">
                   {/* Forme circulaire flottante pour que le texte épouse le contour de la photo */}
                   <div 
                     className="hidden md:block pointer-events-none"
@@ -110,15 +110,15 @@ export default function About() {
                   />
                   
                   {/* Effet de brillance au hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 rounded-2xl" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 rounded-xl md:rounded-2xl" />
                   
                   {/* Contenu avec shape-outside pour épouser le contour circulaire */}
                   <div className="relative z-10">
-                    <h3 className="text-2xl md:text-3xl font-medium mb-4 text-sand">
+                    <h3 className="text-xl md:text-3xl font-medium mb-2 md:mb-4 text-sand">
                       {card.title}
                     </h3>
                     <p 
-                      className="text-sand/90 leading-relaxed text-base md:text-lg"
+                      className="text-sand/90 leading-relaxed text-sm md:text-lg"
                       style={{
                         shapeOutside: shapeStyles.shapeOutside,
                         shapeMargin: shapeStyles.shapeMargin,
@@ -129,7 +129,7 @@ export default function About() {
                   </div>
 
                   {/* Effet de bordure animée */}
-                  <div className="absolute inset-0 rounded-2xl border-2 border-accent-blue/0 group-hover:border-accent-blue/40 transition-all duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-accent-blue/0 group-hover:border-accent-blue/40 transition-all duration-500 pointer-events-none" />
                 </div>
               </div>
             );
@@ -187,12 +187,12 @@ export default function About() {
             delay: 0.5,
             ease: [0.22, 1, 0.36, 1]
           }}
-          className="flex justify-center mt-8 md:hidden"
+          className="flex justify-center mt-6 md:hidden z-20 relative"
         >
           <div className="relative">
-            <div className="absolute inset-0 rounded-full bg-accent-blue/20 blur-2xl" />
-            <div className="absolute inset-0 rounded-full bg-accent-blue/10 blur-xl" />
-            <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-accent-blue/30 shadow-[0_0_20px_rgba(90,143,163,0.2)]">
+            <div className="absolute inset-0 rounded-full bg-accent-blue/20 blur-2xl -inset-4" />
+            <div className="absolute inset-0 rounded-full bg-accent-blue/10 blur-xl -inset-2" />
+            <div className="relative w-32 h-32 rounded-full overflow-hidden border-3 border-accent-blue/30 shadow-[0_0_20px_rgba(90,143,163,0.2)]" style={{ borderWidth: '3px' }}>
               <img
                 src="/images/portrait.jpg"
                 alt="Maxime Farineau"

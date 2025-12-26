@@ -267,23 +267,23 @@ export default function Hero() {
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute right-6 md:right-12 lg:right-20 top-1/2 -translate-y-1/2 z-20 w-full max-w-sm md:max-w-md"
+        className="absolute right-4 md:right-12 lg:right-20 top-[25%] md:top-1/2 md:-translate-y-1/2 z-20 w-full max-w-sm md:max-w-md"
       >
-        <div className="bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-accent-blue/20 shadow-2xl">
+        <div className="bg-ocean-deep/30 md:bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-accent-blue/20 shadow-2xl">
           {/* Nom avec logo */}
-          <div className="flex items-center gap-6 mb-3">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-accent-blue">
+          <div className="flex items-center gap-3 md:gap-6 mb-2 md:mb-3">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium text-accent-blue">
               Maxime Farineau
             </h1>
             <img 
               src="/images/logo-white.png" 
               alt="Logo Maxime Farineau - Développeur Web" 
-              className="h-[120px] w-auto"
+              className="h-16 md:h-[120px] w-auto"
             />
           </div>
           
           {/* Titre */}
-          <div className="text-lg md:text-xl lg:text-2xl font-light mb-4 text-sand/80">
+          <div className="text-base md:text-xl lg:text-2xl font-light mb-3 md:mb-4 text-sand/80">
             Créateur de site web de A à Z 100% personnalisé
           </div>
           
@@ -292,15 +292,15 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.6 }}
-            className="flex flex-wrap gap-2 mb-6"
+            className="flex flex-wrap gap-2 mb-4 md:mb-6"
           >
-            <span className="px-3 py-1 bg-accent-blue/15 text-accent-blue text-sm rounded-full border border-accent-blue/25">
+            <span className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
               React
             </span>
-            <span className="px-3 py-1 bg-accent-blue/15 text-accent-blue text-sm rounded-full border border-accent-blue/25">
+            <span className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
               Webflow
             </span>
-            <span className="px-3 py-1 bg-accent-blue/15 text-accent-blue text-sm rounded-full border border-accent-blue/25">
+            <span className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
               Shopify
             </span>
           </motion.div>
@@ -313,7 +313,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 1.8 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full px-6 py-3 bg-accent-blue text-white font-semibold rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-lg hover:shadow-accent-blue/30 mb-6"
+            className="w-full px-4 py-2.5 md:px-6 md:py-3 bg-accent-blue text-white text-sm md:text-base font-semibold rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-lg hover:shadow-accent-blue/30 mb-4 md:mb-6"
           >
             Demander un devis
           </motion.button>
