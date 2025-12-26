@@ -35,5 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-public/videos/*.mp4
-public/videos/**/*.mp4
+# Videos are now tracked in Git
+# public/videos/*.mp4
+# public/videos/**/*.mp4
