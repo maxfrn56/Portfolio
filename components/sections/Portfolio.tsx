@@ -26,7 +26,7 @@ const projects = [
     title: 'Bot de trading',
     description: 'Bot de trading automatisé en Python utilisant l\'API Binance pour l\'exécution de stratégies de trading en temps réel.',
     stack: ['Python', 'Binance API', 'Trading', 'Automation'],
-    image: '/images/trading.jpg',
+    image: '/images/Trading.jpg',
     link: '#',
   },
 ];
