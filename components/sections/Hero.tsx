@@ -247,123 +247,197 @@ export default function Hero() {
              }} />
       </motion.div>
 
-      {/* Cadre animé - Centré sur mobile, à droite sur desktop */}
+      {/* Contenu mobile - Sans carré, directement sur le fond */}
       <motion.div
         ref={contentRef}
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-12 lg:right-20 top-1/2 -translate-y-1/2 z-20 w-[calc(100%-2rem)] max-w-sm md:max-w-md"
+        className="absolute left-0 right-0 top-[28%] md:top-1/2 md:-translate-y-1/2 md:left-auto md:right-12 lg:right-20 md:translate-x-0 z-20 w-full md:w-auto md:max-w-md px-4 md:px-0"
       >
-        <div className="bg-ocean-deep/40 md:bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-5 md:p-8 border border-accent-blue/20 shadow-2xl">
-          {/* Nom avec logo */}
-          <div className="flex flex-col md:flex-row items-center md:items-center gap-3 md:gap-6 mb-3 md:mb-3">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium text-accent-blue text-center md:text-left">
-              Maxime Farineau
-            </h1>
-            <img 
-              src="/images/logo-white.png" 
-              alt="Logo Maxime Farineau - Développeur Web" 
-              className="h-14 md:h-[120px] w-auto"
-            />
-          </div>
-          
-          {/* Titre */}
-          <div className="text-sm md:text-xl lg:text-2xl font-light mb-4 md:mb-4 text-sand/80 text-center md:text-left">
-            Créateur de site web de A à Z 100% personnalisé
-          </div>
-          
-          {/* Technologies */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.6 }}
-            className="flex flex-wrap gap-2 mb-4 md:mb-6 justify-center md:justify-start"
-          >
-            <span className="px-2.5 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
-              React
-            </span>
-            <span className="px-2.5 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
-              Webflow
-            </span>
-            <span className="px-2.5 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
-              Shopify
-            </span>
-          </motion.div>
+        {/* Version mobile - Avec cadre (sans slogan) */}
+        <div className="md:hidden flex flex-col items-center text-center w-full max-w-full mx-auto">
+          {/* Nom - Au-dessus du cadre */}
+          <h1 className="text-5xl font-medium text-accent-blue mb-8 -mt-12" style={{ fontFamily: 'var(--font-anton)' }}>
+            Maxime Farineau
+          </h1>
 
-          {/* Bouton */}
-          <motion.button
-            onClick={scrollToContact}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full px-5 py-3 md:px-6 md:py-3 bg-accent-blue text-white text-sm md:text-base font-semibold rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-lg hover:shadow-accent-blue/30 mb-4 md:mb-6"
-          >
-            Demander un devis
-          </motion.button>
+          {/* Cadre autour des informations (sans slogan) */}
+          <div className="bg-ocean-blue/20 backdrop-blur-sm rounded-2xl p-6 border border-accent-blue/30 w-full max-w-sm">
+            {/* Titre */}
+            <div className="text-base font-bold text-sand/90 leading-relaxed mb-4">
+              Créateur de site web de A à Z 100% personnalisé
+            </div>
+            
+            {/* Technologies */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="flex flex-wrap gap-2 justify-center mb-4"
+            >
+              <span className="px-3 py-1.5 bg-transparent text-sand text-xs rounded-full border-2 border-accent-blue font-semibold">
+                React
+              </span>
+              <span className="px-3 py-1.5 bg-transparent text-sand text-xs rounded-full border-2 border-accent-blue font-semibold">
+                Webflow
+              </span>
+              <span className="px-3 py-1.5 bg-transparent text-sand text-xs rounded-full border-2 border-accent-blue font-semibold">
+                Shopify
+              </span>
+              <span className="px-3 py-1.5 bg-transparent text-sand text-xs rounded-full border-2 border-accent-blue font-semibold">
+                Node.js
+              </span>
+            </motion.div>
 
-          {/* Icônes réseaux sociaux */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 2 }}
-            className="flex items-center justify-center gap-4"
-          >
-            <motion.a
-              href="https://www.instagram.com/farinexx/"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-white hover:text-accent-blue transition-colors"
-              aria-label="Instagram"
+            {/* Bouton */}
+            <motion.button
+              onClick={scrollToContact}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.8 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full px-6 py-3 bg-accent-blue text-white text-sm font-semibold rounded-lg transition-all duration-300 shadow-lg mb-4"
             >
-              <InstagramIcon />
-            </motion.a>
-            <motion.a
-              href="https://www.linkedin.com/in/maxime-farineau-5a2b3b228/"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-white hover:text-accent-blue transition-colors"
-              aria-label="LinkedIn"
+              Demander un devis
+            </motion.button>
+
+            {/* Icônes réseaux sociaux */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2 }}
+              className="flex items-center justify-center gap-4"
             >
-              <LinkedInIcon />
-            </motion.a>
-            <motion.a
-              href="mailto:contact@maximefarineau.com"
-              whileHover={{ scale: 1.2, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-white hover:text-accent-blue transition-colors"
-              aria-label="Email"
+              <motion.a
+                href="https://www.instagram.com/farinexx/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileTap={{ scale: 0.9 }}
+                className="text-white hover:text-accent-blue transition-colors"
+                aria-label="Instagram"
+              >
+                <InstagramIcon />
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/maxime-farineau-5a2b3b228/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileTap={{ scale: 0.9 }}
+                className="text-white hover:text-accent-blue transition-colors"
+                aria-label="LinkedIn"
+              >
+                <LinkedInIcon />
+              </motion.a>
+              <motion.a
+                href="mailto:contact@maximefarineau.com"
+                whileTap={{ scale: 0.9 }}
+                className="text-white hover:text-accent-blue transition-colors"
+                aria-label="Email"
+              >
+                <EmailIcon />
+              </motion.a>
+            </motion.div>
+          </div>
+
+          {/* Slogan sur une seule ligne sous le cadre avec animation */}
+          <MobileSlogan />
+        </div>
+
+        {/* Version desktop - Avec carré */}
+        <div className="hidden md:block">
+          <div className="bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-8 border border-accent-blue/20 shadow-2xl">
+            {/* Nom */}
+            <div className="mb-3">
+              <h1 className="text-4xl lg:text-5xl font-medium text-accent-blue">
+                Maxime Farineau
+              </h1>
+            </div>
+            
+            {/* Titre */}
+            <div className="text-xl lg:text-2xl font-light mb-4 text-sand/80">
+              Créateur de site web de A à Z 100% personnalisé
+            </div>
+            
+            {/* Technologies */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="flex flex-wrap gap-2 mb-6"
             >
-              <EmailIcon />
-            </motion.a>
-          </motion.div>
+              <span className="px-3 py-1 bg-accent-blue/15 text-accent-blue text-sm rounded-full border border-accent-blue/25">
+                React
+              </span>
+              <span className="px-3 py-1 bg-accent-blue/15 text-accent-blue text-sm rounded-full border border-accent-blue/25">
+                Webflow
+              </span>
+              <span className="px-3 py-1 bg-accent-blue/15 text-accent-blue text-sm rounded-full border border-accent-blue/25">
+                Shopify
+              </span>
+            </motion.div>
+
+            {/* Bouton */}
+            <motion.button
+              onClick={scrollToContact}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.8 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full px-6 py-3 bg-accent-blue text-white text-base font-semibold rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-lg hover:shadow-accent-blue/30 mb-6"
+            >
+              Demander un devis
+            </motion.button>
+
+            {/* Icônes réseaux sociaux */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2 }}
+              className="flex items-center justify-center gap-4"
+            >
+              <motion.a
+                href="https://www.instagram.com/farinexx/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                className="text-white hover:text-accent-blue transition-colors"
+                aria-label="Instagram"
+              >
+                <InstagramIcon />
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/maxime-farineau-5a2b3b228/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                className="text-white hover:text-accent-blue transition-colors"
+                aria-label="LinkedIn"
+              >
+                <LinkedInIcon />
+              </motion.a>
+              <motion.a
+                href="mailto:contact@maximefarineau.com"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                className="text-white hover:text-accent-blue transition-colors"
+                aria-label="Email"
+              >
+                <EmailIcon />
+              </motion.a>
+            </motion.div>
+          </div>
         </div>
       </motion.div>
 
-      {/* Slogan - En haut centré sur mobile, à gauche sur desktop */}
-      <SloganSection />
+      {/* Slogan - Uniquement sur desktop (mobile: intégré dans le contenu) */}
+      <div className="hidden md:block">
+        <SloganSection />
+      </div>
 
-      {/* Indicateur de scroll */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, repeat: Infinity, duration: 2 }}
-        className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 z-10"
-      >
-        <div className="w-6 h-10 border-2 border-accent-blue rounded-full flex justify-center">
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-1 h-3 bg-accent-blue rounded-full mt-2"
-          />
-        </div>
-      </motion.div>
     </section>
   );
 }
@@ -385,7 +459,7 @@ function SloganSection() {
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1, delay: 2 }}
-      className="absolute left-1/2 -translate-x-1/2 md:left-12 lg:left-20 md:translate-x-0 top-[15%] md:top-1/2 md:-translate-y-1/2 z-10 w-[calc(100%-2rem)] md:w-auto"
+      className="absolute left-0 right-0 md:left-12 lg:left-20 md:right-auto top-[10%] md:top-1/2 md:-translate-y-1/2 z-10 w-full md:w-auto px-4 md:px-0"
     >
       <div className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl text-white/70 md:text-white/90 leading-tight text-center md:text-left" style={{ fontFamily: 'var(--font-anton), sans-serif' }}>
         <div className="mb-0.5 text-sm md:text-base">Powered by</div>
@@ -436,6 +510,68 @@ function AnimatedWord({ word, direction }: { word: string; direction: 'up' | 'do
     >
       {word}
     </motion.span>
+  );
+}
+
+// Composant slogan mobile avec animation sur une seule ligne
+function MobileSlogan() {
+  const [isWavesFirst, setIsWavesFirst] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsWavesFirst((prev) => !prev);
+    }, 2500); // Change toutes les 2.5 secondes
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 2.2 }}
+      className="text-white/70 font-anton whitespace-nowrap flex items-center justify-center"
+      style={{ marginTop: '32px', fontSize: '21px', fontFamily: 'var(--font-anton)' }}
+    >
+      <span>Powered by</span>
+      <span className="relative inline-block w-[3.2rem] overflow-visible ml-1" style={{ verticalAlign: 'baseline' }}>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={isWavesFirst ? 'Waves' : 'Code'}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="inline-block text-accent-blue font-semibold whitespace-nowrap"
+            style={{ verticalAlign: 'baseline' }}
+          >
+            {isWavesFirst ? 'Waves' : 'Code'}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      <span className="ml-3">Driven by</span>
+      <span className="relative inline-block w-[3.2rem] overflow-visible ml-1" style={{ verticalAlign: 'baseline' }}>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={isWavesFirst ? 'Code' : 'Waves'}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="inline-block text-accent-blue font-semibold whitespace-nowrap"
+            style={{ verticalAlign: 'baseline' }}
+          >
+            {isWavesFirst ? 'Code' : 'Waves'}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+    </motion.div>
   );
 }
 

@@ -39,21 +39,23 @@ export default function About() {
     <section 
       id="about" 
       ref={sectionRef}
-      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-4 md:px-6 retro-distort overflow-x-hidden"
+      className="relative bg-ocean-deep section-fullscreen pt-0 pb-0 md:py-20 px-4 md:px-6 retro-distort overflow-x-hidden overflow-y-visible md:overflow-y-hidden"
       style={{ 
         zIndex: 10,
         contain: 'layout style paint', // Optimisation pour isoler les repaints
         willChange: 'transform', // Optimisation pour les animations
       }}
     >
-      <div ref={containerRef} className="max-w-6xl mx-auto relative overflow-x-hidden">
+      {/* Ligne de séparation mobile */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent md:hidden" />
+      <div ref={containerRef} className="max-w-6xl mx-auto relative overflow-x-hidden md:mt-0" style={{ marginTop: '0' }}>
         {/* Slogan défilant horizontalement - au-dessus des carrés */}
-        <div className="absolute left-1/2 -translate-x-1/2 w-screen -top-4 md:-top-12 lg:-top-16 overflow-hidden" style={{ maxWidth: '100vw', left: '50%', right: 'auto' }}>
+        <div className="absolute left-1/2 -translate-x-1/2 w-screen top-0 md:-top-12 lg:-top-16 overflow-visible md:overflow-hidden z-20" style={{ maxWidth: '100vw', left: '50%', right: 'auto', top: '0' }}>
           <SloganCarousel />
         </div>
         
-        {/* Grille 2x2 avec photo centrée */}
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 z-10 mt-4 md:mt-8 w-full">
+        {/* Grille 2x2 avec photo centrée - Masquée sur mobile */}
+        <div className="hidden md:grid relative grid-cols-2 gap-4 md:gap-8 z-10 mt-4 md:mt-8 w-full">
           {cards.map((card, index) => {
             // Position du cercle pour shape-outside selon la position de la carte
             // La photo fait environ 256px (w-64) au centre, donc 128px de rayon
@@ -178,34 +180,6 @@ export default function About() {
           </div>
         </div>
         
-        {/* Photo ronde centrée pour mobile */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ 
-            duration: 1, 
-            delay: 0.5,
-            ease: [0.22, 1, 0.36, 1]
-          }}
-          className="flex justify-center mt-6 md:hidden z-20 relative"
-        >
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full bg-accent-blue/20 blur-2xl -inset-4" />
-            <div className="absolute inset-0 rounded-full bg-accent-blue/10 blur-xl -inset-2" />
-            <div className="relative w-32 h-32 rounded-full overflow-hidden border-3 border-accent-blue/30 shadow-[0_0_20px_rgba(90,143,163,0.2)]" style={{ borderWidth: '3px' }}>
-              <img
-                src="/images/portrait.jpg"
-                alt="Maxime Farineau"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23ff6b35" width="200" height="200"/%3E%3Ctext fill="%23f4e4bc" font-family="Arial" font-size="20" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EMF%3C/text%3E%3C/svg%3E';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/15 via-transparent to-ocean-deep/20 mix-blend-mode-overlay" />
-            </div>
-          </div>
-        </motion.div>
 
         {/* Classeur photo rétro avec scroll horizontal */}
         <PhotoAlbum />
@@ -247,8 +221,8 @@ function PhotoAlbum() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  const photoWidth = isMobile ? 280 : 320;
-  const photoHeight = isMobile ? 350 : 400;
+  const photoWidth = isMobile ? 200 : 320;
+  const photoHeight = isMobile ? 250 : 400;
   const photoGap = isMobile ? 16 : 20; // Espace entre photos visibles
   const stackOffset = 15; // Décalage pour l'effet de pile
 
@@ -384,9 +358,9 @@ function PhotoAlbum() {
   return (
     <div 
       ref={containerRef}
-      className="mt-20 md:mt-32 relative w-full overflow-x-hidden"
+      className="mt-24 md:mt-32 relative w-full overflow-x-hidden"
     >
-      <h3 className="text-3xl md:text-4xl font-medium mb-8 text-sand text-center">
+      <h3 className="text-2xl md:text-4xl font-medium mb-6 md:mb-8 text-sand text-center">
         Mes Moments
       </h3>
       
@@ -403,7 +377,7 @@ function PhotoAlbum() {
         {/* Container de scroll */}
         <div 
           ref={scrollContainerRef}
-          className={`overflow-x-auto overflow-y-visible pb-8 ${isHovered ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}
+          className={`overflow-x-auto overflow-y-visible pb-2 md:pb-8 ${isHovered ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -513,7 +487,7 @@ function PhotoAlbum() {
 function SloganCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
-  const scrollSpeedRef = useRef(0.05); // Vitesse de base (très lente)
+  const scrollSpeedRef = useRef(0.15); // Vitesse de base (accélérée)
   const isVisibleRef = useRef(false);
 
   const slogan = "Le bon timing. La bonne vague. Le bon code.";
@@ -589,14 +563,14 @@ function SloganCarousel() {
         }
         
         const windowHeight = window.innerHeight;
-        let maxSpeed = 0.05; // Vitesse de base réduite
+        let maxSpeed = 0.15; // Vitesse de base accélérée
         let shouldAccelerate = false;
         
         // Vérifier la section About avec cache
         if (cachedAboutRect) {
           if (cachedAboutRect.top < windowHeight && cachedAboutRect.bottom > 0) {
             const scrollProgress = Math.max(0, Math.min(1, (windowHeight - cachedAboutRect.top) / windowHeight));
-            const speed = 0.05 + (scrollProgress * scrollProgress * 0.25);
+            const speed = 0.15 + (scrollProgress * scrollProgress * 0.25);
             maxSpeed = Math.max(maxSpeed, speed);
             shouldAccelerate = true;
           }
@@ -606,7 +580,7 @@ function SloganCarousel() {
         if (cachedWhyWorkRect) {
           if (cachedWhyWorkRect.top < windowHeight && cachedWhyWorkRect.bottom > 0) {
             const scrollProgress = Math.max(0, Math.min(1, (windowHeight - cachedWhyWorkRect.top) / windowHeight));
-            const speed = 0.05 + (scrollProgress * scrollProgress * 0.25);
+            const speed = 0.15 + (scrollProgress * scrollProgress * 0.25);
             maxSpeed = Math.max(maxSpeed, speed);
             shouldAccelerate = true;
           }
@@ -623,10 +597,10 @@ function SloganCarousel() {
         // Si on est dans une section et qu'on accélère, réinitialiser après 100ms d'inactivité
         if (shouldAccelerate) {
           scrollTimeout = setTimeout(() => {
-            scrollSpeedRef.current = 0.05;
+            scrollSpeedRef.current = 0.15;
           }, 100);
         } else {
-          scrollSpeedRef.current = 0.05;
+          scrollSpeedRef.current = 0.15;
         }
       });
     };
@@ -648,7 +622,7 @@ function SloganCarousel() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden w-full" style={{ contain: 'layout style paint', maxWidth: '100vw' }}>
+    <div className="relative overflow-visible md:overflow-hidden w-full py-0 md:py-0" style={{ contain: 'layout style paint', maxWidth: '100vw' }}>
       <div
         ref={containerRef}
         className="flex gap-4 md:gap-8 whitespace-nowrap"
@@ -660,7 +634,7 @@ function SloganCarousel() {
         {duplicatedSlogans.map((text, index) => (
           <h2
             key={index}
-            className="flex-shrink-0 text-3xl md:text-8xl lg:text-9xl xl:text-[12rem] font-anton text-accent-blue/20"
+            className="flex-shrink-0 text-6xl md:text-8xl lg:text-9xl xl:text-[12rem] font-anton text-accent-blue/20"
             style={{ fontFamily: 'var(--font-anton)' }}
           >
             {text}

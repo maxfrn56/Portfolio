@@ -73,9 +73,11 @@ export default function WhyWorkWithMe() {
     <section
       ref={containerRef}
       id="why-work-with-me"
-      className="relative bg-ocean-deep pt-8 md:pt-12 pb-24 md:pb-32 overflow-hidden retro-distort"
+      className="relative bg-ocean-deep pt-8 md:pt-12 pb-0 md:pb-32 overflow-hidden retro-distort"
       style={{ zIndex: 1 }}
     >
+      {/* Ligne de séparation mobile */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent md:hidden" />
       {/* Carrousel de compétences en boucle infinie - pleine largeur */}
       <SkillsCarousel />
       
@@ -87,29 +89,12 @@ export default function WhyWorkWithMe() {
         </div>
 
         {/* Benefits Grid avec progression visuelle */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-16 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-16 mb-0 md:mb-20">
           <ClarityPillar isInView={isInView} benefit={benefits[0]} index={0} />
           <PerformancePillar isInView={isInView} benefit={benefits[1]} index={1} />
           <StrategyPillar isInView={isInView} benefit={benefits[2]} index={2} />
           <ReliabilityPillar isInView={isInView} benefit={benefits[3]} index={3} />
         </div>
-
-        {/* Differentiator */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="mt-16 pt-12 border-t border-accent-blue/20 text-center"
-        >
-          <motion.p
-            className="text-sand/60 text-sm md:text-base italic"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 1.2 }}
-          >
-            Pas d&apos;animations inutiles. Pas de solutions surcompliquées. Juste ce qui fonctionne.
-          </motion.p>
-        </motion.div>
       </div>
     </section>
   );

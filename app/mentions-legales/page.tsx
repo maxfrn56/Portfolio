@@ -42,7 +42,9 @@ export default function MentionsLegales() {
         ScrollTrigger.refresh();
       } catch (error) {
         // Ignorer toutes les erreurs pour ne pas bloquer l'affichage
-        console.warn('Erreur lors du nettoyage:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Erreur lors du nettoyage:', error);
+        }
       }
     };
     

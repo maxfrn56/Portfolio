@@ -17,11 +17,9 @@ export async function POST(request: NextRequest) {
 
     // Vérifier que la clé API Resend est configurée
     if (!process.env.RESEND_API_KEY) {
-      console.error('❌ RESEND_API_KEY n\'est pas configurée dans les variables d\'environnement');
-      console.error('📝 Pour configurer: créez un fichier .env.local avec RESEND_API_KEY=votre_cle');
-      
-      // En mode développement, on peut quand même logger les données
       if (process.env.NODE_ENV === 'development') {
+        console.error('❌ RESEND_API_KEY n\'est pas configurée dans les variables d\'environnement');
+        console.error('📝 Pour configurer: créez un fichier .env.local avec RESEND_API_KEY=votre_cle');
         console.log('📧 Message reçu (mode développement - email non envoyé):');
         console.log('Nom:', validatedData.name);
         console.log('Email:', validatedData.email);
@@ -95,7 +93,9 @@ ${validatedData.message}
     });
 
     if (error) {
-      console.error('❌ Erreur Resend:', JSON.stringify(error, null, 2));
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ Erreur Resend:', JSON.stringify(error, null, 2));
+      }
       return NextResponse.json(
         { 
           error: 'Erreur lors de l\'envoi de l\'email',
@@ -105,7 +105,9 @@ ${validatedData.message}
       );
     }
 
-    console.log('✅ Email envoyé avec succès:', data?.id);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Email envoyé avec succès:', data?.id);
+    }
 
     return NextResponse.json(
       { message: 'Message envoyé avec succès', id: data?.id },
@@ -119,7 +121,9 @@ ${validatedData.message}
       );
     }
 
-    console.error('❌ Erreur lors de l\'envoi du message:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('❌ Erreur lors de l\'envoi du message:', error);
+    }
     const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
     
     return NextResponse.json(

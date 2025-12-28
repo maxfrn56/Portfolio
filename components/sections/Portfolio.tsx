@@ -42,13 +42,14 @@ export default function Portfolio() {
     shiftAmount: 3,
   });
 
+
   return (
     <section
       ref={sectionRef}
       id="portfolio"
-      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-4 md:px-6 retro-distort section-separator"
+      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-0 md:px-6 retro-distort section-separator overflow-x-visible md:overflow-x-hidden"
     >
-      <div ref={contentRef} className="max-w-7xl mx-auto">
+      <div ref={contentRef} className="max-w-7xl mx-auto px-4 md:px-0">
         <motion.div
           className="text-center mb-12 md:mb-16"
         >
@@ -61,13 +62,17 @@ export default function Portfolio() {
         </motion.div>
 
         {/* Carrousel horizontal avec scroll */}
-        <div className="relative overflow-hidden">
+        <div className="relative w-full">
           <div
             ref={carouselRef}
-            className="flex gap-8 overflow-x-auto pb-4 hide-scrollbar items-stretch"
+            className="flex gap-8 overflow-x-scroll overflow-y-hidden pb-4 hide-scrollbar items-stretch"
             style={{
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-x',
+              overscrollBehaviorX: 'contain',
+              width: '100%',
+              minWidth: '100%',
             }}
           >
             {projects.map((project, index) => (
@@ -78,7 +83,10 @@ export default function Portfolio() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="flex-shrink-0 w-[320px] sm:w-[380px] md:w-[450px] lg:w-[500px] h-full"
-                style={{ scrollSnapAlign: 'start' }}
+                style={{ 
+                  scrollSnapAlign: 'start',
+                  minWidth: '320px',
+                }}
               >
                 <ProjectCard project={project} />
               </motion.div>
