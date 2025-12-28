@@ -58,14 +58,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <div className="relative w-full h-48 md:h-64 overflow-hidden flex items-center justify-center">
         {project.video ? (
           <>
-            <video
-              ref={videoRef}
-              muted
-              loop
-              playsInline
-              preload="none"
-              loading="lazy"
-              onLoadedMetadata={handleVideoLoadedMetadata}
+                  <video
+                    ref={videoRef}
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    onLoadedMetadata={handleVideoLoadedMetadata}
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
                 isHovered ? 'opacity-100 scale-100' : 'opacity-60 scale-105'
               }`}
