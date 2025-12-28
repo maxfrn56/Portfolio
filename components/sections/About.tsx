@@ -39,21 +39,21 @@ export default function About() {
     <section 
       id="about" 
       ref={sectionRef}
-      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-4 md:px-6 retro-distort"
+      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-4 md:px-6 retro-distort overflow-x-hidden"
       style={{ 
         zIndex: 10,
         contain: 'layout style paint', // Optimisation pour isoler les repaints
         willChange: 'transform', // Optimisation pour les animations
       }}
     >
-      <div ref={containerRef} className="max-w-6xl mx-auto relative">
+      <div ref={containerRef} className="max-w-6xl mx-auto relative overflow-x-hidden">
         {/* Slogan défilant horizontalement - au-dessus des carrés */}
-        <div className="absolute left-1/2 -translate-x-1/2 w-screen -top-4 md:-top-12 lg:-top-16 overflow-hidden" style={{ maxWidth: '100vw' }}>
+        <div className="absolute left-1/2 -translate-x-1/2 w-screen -top-4 md:-top-12 lg:-top-16 overflow-hidden" style={{ maxWidth: '100vw', left: '50%', right: 'auto' }}>
           <SloganCarousel />
         </div>
         
         {/* Grille 2x2 avec photo centrée */}
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 z-10 mt-4 md:mt-8">
+        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 z-10 mt-4 md:mt-8 w-full">
           {cards.map((card, index) => {
             // Position du cercle pour shape-outside selon la position de la carte
             // La photo fait environ 256px (w-64) au centre, donc 128px de rayon
@@ -96,10 +96,10 @@ export default function About() {
             return (
               <div
                 key={card.id}
-                className="relative group"
+                className="relative group w-full"
               >
                 {/* Carte */}
-                <div className="bg-ocean-blue/40 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-8 border-2 md:border-4 border-accent-blue/30 relative overflow-hidden retro-card min-h-[180px] h-auto md:h-[320px] shadow-[0_0_20px_rgba(90,143,163,0.2)]">
+                <div className="bg-ocean-blue/40 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-8 border-2 md:border-4 border-accent-blue/30 relative overflow-hidden retro-card min-h-[180px] h-auto md:h-[320px] shadow-[0_0_20px_rgba(90,143,163,0.2)] w-full max-w-full box-border">
                   {/* Forme circulaire flottante pour que le texte épouse le contour de la photo */}
                   <div 
                     className="hidden md:block pointer-events-none"
@@ -235,23 +235,41 @@ function PhotoAlbum() {
     '/images/Classeur-13.jpg',
   ];
 
-  // Taille fixe pour toutes les photos
-  const photoWidth = 320;
-  const photoHeight = 400;
-  const photoGap = 20; // Espace entre photos visibles
+  // Taille fixe pour toutes les photos - Responsive sur mobile
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  const photoWidth = isMobile ? 280 : 320;
+  const photoHeight = isMobile ? 350 : 400;
+  const photoGap = isMobile ? 16 : 20; // Espace entre photos visibles
   const stackOffset = 15; // Décalage pour l'effet de pile
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
+    let resizeTimeout: NodeJS.Timeout;
     const updateWidth = () => {
-      setContainerWidth(container.clientWidth);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setContainerWidth(container.clientWidth);
+      }, 150);
     };
 
     updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
+    window.addEventListener('resize', updateWidth, { passive: true });
+    return () => {
+      clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', updateWidth);
+    };
   }, []);
 
   useEffect(() => {
@@ -288,7 +306,14 @@ function PhotoAlbum() {
 
     // Optimiser handleScroll avec throttling pour réduire le jank
     let scrollRaf: number | null = null;
+    let lastScrollTime = 0;
+    const throttleDelay = 16; // ~60fps
+    
     const handleScroll = () => {
+      const now = performance.now();
+      if (now - lastScrollTime < throttleDelay) return;
+      lastScrollTime = now;
+      
       if (scrollRaf) return; // Éviter les appels multiples
       
       scrollRaf = requestAnimationFrame(() => {
@@ -359,17 +384,17 @@ function PhotoAlbum() {
   return (
     <div 
       ref={containerRef}
-      className="mt-20 md:mt-32 relative"
+      className="mt-20 md:mt-32 relative w-full overflow-x-hidden"
     >
       <h3 className="text-3xl md:text-4xl font-medium mb-8 text-sand text-center">
         Mes Moments
       </h3>
       
       {/* Zone de scroll avec pile visible à gauche */}
-      <div className="relative">
+      <div className="relative w-full overflow-x-hidden">
         {/* Zone de pile fixe à gauche */}
         <div 
-          className="absolute left-0 top-0 bottom-0 w-32 md:w-48 pointer-events-none z-10"
+          className="absolute left-0 top-0 bottom-0 w-24 md:w-48 pointer-events-none z-10"
           style={{
             background: 'linear-gradient(to right, rgba(26, 46, 58, 0.95), transparent)',
           }}
@@ -386,6 +411,7 @@ function PhotoAlbum() {
             scrollBehavior: 'smooth',
             contain: 'layout style paint',
             willChange: 'scroll-position',
+            maxWidth: '100%',
           }}
         >
           <div 
@@ -393,7 +419,8 @@ function PhotoAlbum() {
             style={{
               width: `${photos.length * (photoWidth + photoGap) + photoGap}px`,
               paddingLeft: `${photoGap}px`,
-              paddingRight: `${containerWidth}px`,
+              paddingRight: isMobile ? `${photoGap}px` : `${containerWidth}px`,
+              minWidth: 'max-content',
             }}
           >
             {photos.map((photo, index) => {
@@ -487,6 +514,7 @@ function SloganCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
   const scrollSpeedRef = useRef(0.05); // Vitesse de base (très lente)
+  const isVisibleRef = useRef(false);
 
   const slogan = "Le bon timing. La bonne vague. Le bon code.";
   // Dupliquer le slogan plusieurs fois pour créer l'effet de boucle fluide
@@ -498,8 +526,24 @@ function SloganCarousel() {
 
     let position = 0;
     let scrollTimeout: NodeJS.Timeout | null = null;
+    let rafId: number | null = null;
+
+    const checkVisibility = () => {
+      const aboutSection = document.getElementById('about');
+      if (!aboutSection) return false;
+      const rect = aboutSection.getBoundingClientRect();
+      return rect.top < window.innerHeight + 200 && rect.bottom > -200;
+    };
 
     const animate = () => {
+      // Arrêter l'animation si la section n'est pas visible
+      if (!checkVisibility()) {
+        isVisibleRef.current = false;
+        rafId = requestAnimationFrame(animate);
+        return;
+      }
+      
+      isVisibleRef.current = true;
       position += scrollSpeedRef.current;
       
       // Calculer la largeur d'un slogan (approximative)
@@ -511,15 +555,20 @@ function SloganCarousel() {
       }
       
       container.style.transform = `translateX(-${position}px)`;
-      animationRef.current = requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
+    animationRef.current = rafId;
 
     // Écouter le scroll pour accélérer (sur About et WhyWorkWithMe)
     // Optimisé avec throttling pour réduire le jank
     let lastScrollTime = 0;
-    const throttleDelay = 16; // ~60fps
+    let cachedAboutRect: DOMRect | null = null;
+    let cachedWhyWorkRect: DOMRect | null = null;
+    let cacheTime = 0;
+    const cacheDuration = 100; // Cache pendant 100ms
+    const throttleDelay = 50; // Réduit à 50ms pour moins de calculs
     
     const handleScroll = () => {
       const now = performance.now();
@@ -528,30 +577,36 @@ function SloganCarousel() {
       
       // Utiliser requestAnimationFrame pour synchroniser avec le rendu
       requestAnimationFrame(() => {
-        const aboutSection = document.getElementById('about');
-        const whyWorkSection = document.getElementById('why-work-with-me');
-        const windowHeight = window.innerHeight;
+        // Utiliser le cache si récent
+        const now = performance.now();
+        if (now - cacheTime > cacheDuration) {
+          const aboutSection = document.getElementById('about');
+          const whyWorkSection = document.getElementById('why-work-with-me');
+          
+          if (aboutSection) cachedAboutRect = aboutSection.getBoundingClientRect();
+          if (whyWorkSection) cachedWhyWorkRect = whyWorkSection.getBoundingClientRect();
+          cacheTime = now;
+        }
         
-        let maxSpeed = 0.3; // Vitesse de base
+        const windowHeight = window.innerHeight;
+        let maxSpeed = 0.05; // Vitesse de base réduite
         let shouldAccelerate = false;
         
-        // Vérifier la section About (avec cache pour éviter trop de getBoundingClientRect)
-        if (aboutSection) {
-          const aboutRect = aboutSection.getBoundingClientRect();
-          if (aboutRect.top < windowHeight && aboutRect.bottom > 0) {
-            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - aboutRect.top) / windowHeight));
-            const speed = 0.3 + (scrollProgress * scrollProgress * 1.5);
+        // Vérifier la section About avec cache
+        if (cachedAboutRect) {
+          if (cachedAboutRect.top < windowHeight && cachedAboutRect.bottom > 0) {
+            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - cachedAboutRect.top) / windowHeight));
+            const speed = 0.05 + (scrollProgress * scrollProgress * 0.25);
             maxSpeed = Math.max(maxSpeed, speed);
             shouldAccelerate = true;
           }
         }
         
-        // Vérifier la section WhyWorkWithMe
-        if (whyWorkSection) {
-          const whyWorkRect = whyWorkSection.getBoundingClientRect();
-          if (whyWorkRect.top < windowHeight && whyWorkRect.bottom > 0) {
-            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - whyWorkRect.top) / windowHeight));
-            const speed = 0.3 + (scrollProgress * scrollProgress * 1.5);
+        // Vérifier la section WhyWorkWithMe avec cache
+        if (cachedWhyWorkRect) {
+          if (cachedWhyWorkRect.top < windowHeight && cachedWhyWorkRect.bottom > 0) {
+            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - cachedWhyWorkRect.top) / windowHeight));
+            const speed = 0.05 + (scrollProgress * scrollProgress * 0.25);
             maxSpeed = Math.max(maxSpeed, speed);
             shouldAccelerate = true;
           }
@@ -566,14 +621,12 @@ function SloganCarousel() {
         }
         
         // Si on est dans une section et qu'on accélère, réinitialiser après 100ms d'inactivité
-        // Si on n'est pas dans une section, réinitialiser immédiatement
         if (shouldAccelerate) {
           scrollTimeout = setTimeout(() => {
-            scrollSpeedRef.current = 0.3;
+            scrollSpeedRef.current = 0.05;
           }, 100);
         } else {
-          // Si aucune section n'est visible, réinitialiser immédiatement
-          scrollSpeedRef.current = 0.3;
+          scrollSpeedRef.current = 0.05;
         }
       });
     };
@@ -581,6 +634,9 @@ function SloganCarousel() {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
@@ -592,10 +648,10 @@ function SloganCarousel() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden w-full" style={{ contain: 'layout style paint' }}>
+    <div className="relative overflow-hidden w-full" style={{ contain: 'layout style paint', maxWidth: '100vw' }}>
       <div
         ref={containerRef}
-        className="flex gap-8 whitespace-nowrap"
+        className="flex gap-4 md:gap-8 whitespace-nowrap"
         style={{
           willChange: 'transform',
           transform: 'translateZ(0)', // Force GPU acceleration
@@ -604,7 +660,7 @@ function SloganCarousel() {
         {duplicatedSlogans.map((text, index) => (
           <h2
             key={index}
-            className="flex-shrink-0 text-6xl md:text-8xl lg:text-9xl xl:text-[12rem] font-anton text-accent-blue/20"
+            className="flex-shrink-0 text-3xl md:text-8xl lg:text-9xl xl:text-[12rem] font-anton text-accent-blue/20"
             style={{ fontFamily: 'var(--font-anton)' }}
           >
             {text}

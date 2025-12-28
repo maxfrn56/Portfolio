@@ -63,7 +63,7 @@ export default function Contact() {
       }
     } catch (error) {
       setSubmitStatus('error');
-      console.error('Erreur lors de l\'envoi:', error);
+      // Erreur silencieuse en production
     } finally {
       setIsSubmitting(false);
     }

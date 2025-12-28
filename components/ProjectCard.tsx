@@ -63,7 +63,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
+              loading="lazy"
               onLoadedMetadata={handleVideoLoadedMetadata}
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
                 isHovered ? 'opacity-100 scale-100' : 'opacity-60 scale-105'

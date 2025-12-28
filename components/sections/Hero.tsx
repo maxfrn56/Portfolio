@@ -49,24 +49,19 @@ export default function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
-    console.log('Initialisation vidéo...');
-
     const playVideo = () => {
       if (video.paused) {
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise
             .then(() => {
-              console.log('✅ Vidéo en lecture');
               setVideoLoaded(true);
             })
-            .catch((error) => {
-              console.log('❌ Autoplay bloqué:', error);
+            .catch(() => {
               // Essayer après une interaction utilisateur
               const tryPlay = () => {
                 video.play()
                   .then(() => {
-                    console.log('✅ Vidéo lancée après interaction');
                     setVideoLoaded(true);
                   })
                   .catch(() => {});
@@ -83,22 +78,18 @@ export default function Hero() {
     };
 
     const handleLoadedMetadata = () => {
-      console.log('📹 Métadonnées vidéo chargées');
       playVideo();
     };
 
     const handleCanPlay = () => {
-      console.log('▶️ Vidéo peut être lue');
       playVideo();
     };
 
     const handlePlaying = () => {
-      console.log('🎬 Vidéo en cours de lecture');
       setVideoLoaded(true);
     };
 
-    const handleError = (e: Event) => {
-      console.error('❌ Erreur vidéo:', e);
+    const handleError = () => {
       setVideoError(true);
     };
 
@@ -202,7 +193,7 @@ export default function Hero() {
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           className="w-full h-full object-cover"
           style={{ 
             transform: 'scale(1.1)',
@@ -216,12 +207,9 @@ export default function Hero() {
               if (playPromise !== undefined) {
                 playPromise
                   .then(() => {
-                    console.log('✅ Vidéo lancée avec succès');
                     setVideoLoaded(true);
                   })
-                  .catch((err) => {
-                    console.log('⚠️ Autoplay bloqué, attente interaction:', err);
-                  });
+                  .catch(() => {});
               }
             }
           }}
@@ -232,11 +220,9 @@ export default function Hero() {
             }
           }}
           onPlaying={() => {
-            console.log('🎬 Vidéo en cours de lecture');
             setVideoLoaded(true);
           }}
-          onError={(e) => {
-            console.error('❌ Erreur vidéo:', e);
+          onError={() => {
             setVideoError(true);
           }}
         >
@@ -261,29 +247,29 @@ export default function Hero() {
              }} />
       </motion.div>
 
-      {/* Cadre animé à droite */}
+      {/* Cadre animé - Centré sur mobile, à droite sur desktop */}
       <motion.div
         ref={contentRef}
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute right-4 md:right-12 lg:right-20 top-[25%] md:top-1/2 md:-translate-y-1/2 z-20 w-full max-w-sm md:max-w-md"
+        className="absolute left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-12 lg:right-20 top-1/2 -translate-y-1/2 z-20 w-[calc(100%-2rem)] max-w-sm md:max-w-md"
       >
-        <div className="bg-ocean-deep/30 md:bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-accent-blue/20 shadow-2xl">
+        <div className="bg-ocean-deep/40 md:bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-5 md:p-8 border border-accent-blue/20 shadow-2xl">
           {/* Nom avec logo */}
-          <div className="flex items-center gap-3 md:gap-6 mb-2 md:mb-3">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium text-accent-blue">
+          <div className="flex flex-col md:flex-row items-center md:items-center gap-3 md:gap-6 mb-3 md:mb-3">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium text-accent-blue text-center md:text-left">
               Maxime Farineau
             </h1>
             <img 
               src="/images/logo-white.png" 
               alt="Logo Maxime Farineau - Développeur Web" 
-              className="h-16 md:h-[120px] w-auto"
+              className="h-14 md:h-[120px] w-auto"
             />
           </div>
           
           {/* Titre */}
-          <div className="text-base md:text-xl lg:text-2xl font-light mb-3 md:mb-4 text-sand/80">
+          <div className="text-sm md:text-xl lg:text-2xl font-light mb-4 md:mb-4 text-sand/80 text-center md:text-left">
             Créateur de site web de A à Z 100% personnalisé
           </div>
           
@@ -292,15 +278,15 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.6 }}
-            className="flex flex-wrap gap-2 mb-4 md:mb-6"
+            className="flex flex-wrap gap-2 mb-4 md:mb-6 justify-center md:justify-start"
           >
-            <span className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
+            <span className="px-2.5 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
               React
             </span>
-            <span className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
+            <span className="px-2.5 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
               Webflow
             </span>
-            <span className="px-2 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
+            <span className="px-2.5 py-1 md:px-3 md:py-1 bg-accent-blue/15 text-accent-blue text-xs md:text-sm rounded-full border border-accent-blue/25">
               Shopify
             </span>
           </motion.div>
@@ -313,7 +299,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 1.8 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full px-4 py-2.5 md:px-6 md:py-3 bg-accent-blue text-white text-sm md:text-base font-semibold rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-lg hover:shadow-accent-blue/30 mb-4 md:mb-6"
+            className="w-full px-5 py-3 md:px-6 md:py-3 bg-accent-blue text-white text-sm md:text-base font-semibold rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-lg hover:shadow-accent-blue/30 mb-4 md:mb-6"
           >
             Demander un devis
           </motion.button>
@@ -360,7 +346,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* Slogan à gauche */}
+      {/* Slogan - En haut centré sur mobile, à gauche sur desktop */}
       <SloganSection />
 
       {/* Indicateur de scroll */}
@@ -368,7 +354,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, repeat: Infinity, duration: 2 }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
+        className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 z-10"
       >
         <div className="w-6 h-10 border-2 border-accent-blue rounded-full flex justify-center">
           <motion.div
@@ -399,11 +385,11 @@ function SloganSection() {
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1, delay: 2 }}
-      className="absolute left-6 md:left-12 lg:left-20 top-1/2 -translate-y-1/2 z-10"
+      className="absolute left-1/2 -translate-x-1/2 md:left-12 lg:left-20 md:translate-x-0 top-[15%] md:top-1/2 md:-translate-y-1/2 z-10 w-[calc(100%-2rem)] md:w-auto"
     >
-      <div className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white/90 leading-tight" style={{ fontFamily: 'var(--font-anton), sans-serif' }}>
-        <div className="mb-0.5">Powered by</div>
-        <div className="mb-1 relative min-h-[1.2em] overflow-hidden">
+      <div className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl text-white/70 md:text-white/90 leading-tight text-center md:text-left" style={{ fontFamily: 'var(--font-anton), sans-serif' }}>
+        <div className="mb-0.5 text-sm md:text-base">Powered by</div>
+        <div className="mb-1 relative min-h-[1.4em] md:min-h-[1.2em] overflow-hidden">
           <AnimatePresence mode="sync">
             <AnimatedWord 
               key={isWavesFirst ? 'Waves' : 'Code'}
@@ -412,8 +398,8 @@ function SloganSection() {
             />
           </AnimatePresence>
         </div>
-        <div className="mb-0.5">Driven by</div>
-        <div className="relative min-h-[1.2em] overflow-hidden">
+        <div className="mb-0.5 text-sm md:text-base">Driven by</div>
+        <div className="relative min-h-[1.4em] md:min-h-[1.2em] overflow-hidden">
           <AnimatePresence mode="sync">
             <AnimatedWord 
               key={isWavesFirst ? 'Code' : 'Waves'}
@@ -446,7 +432,7 @@ function AnimatedWord({ word, direction }: { word: string; direction: 'up' | 'do
         },
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="absolute left-0 text-accent-blue font-semibold whitespace-nowrap min-w-[120px] md:min-w-[150px] lg:min-w-[180px]"
+      className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 text-accent-blue font-semibold whitespace-nowrap min-w-[100px] md:min-w-[150px] lg:min-w-[180px]"
     >
       {word}
     </motion.span>

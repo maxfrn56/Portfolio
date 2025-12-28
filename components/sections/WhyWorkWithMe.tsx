@@ -223,79 +223,111 @@ function SkillsCarousel() {
 
     let position = 0;
     let scrollTimeout: NodeJS.Timeout | null = null;
+    let rafId: number | null = null;
 
     const cardWidth = 180 + 16; // Largeur de la carte (180px) + gap (16px)
     const singleSetWidth = skills.length * cardWidth;
 
+    const checkVisibility = () => {
+      const whyWorkSection = document.getElementById('why-work-with-me');
+      if (!whyWorkSection) return false;
+      const rect = whyWorkSection.getBoundingClientRect();
+      return rect.top < window.innerHeight + 200 && rect.bottom > -200;
+    };
+
     const animate = () => {
+      // Arrêter l'animation si la section n'est pas visible
+      if (!checkVisibility()) {
+        rafId = requestAnimationFrame(animate);
+        return;
+      }
+      
       position += scrollSpeedRef.current;
       
       // Réinitialiser la position quand on dépasse un set complet
-      // Cela crée une boucle infinie sans saut visible
       if (position >= singleSetWidth) {
         position = position - singleSetWidth;
       }
       
       container.style.transform = `translateX(-${position}px)`;
-      animationRef.current = requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
+    animationRef.current = rafId;
 
     // Écouter le scroll pour accélérer (sur About et WhyWorkWithMe)
+    // Optimisé avec throttling et cache
+    let lastScrollTime = 0;
+    let cachedAboutRect: DOMRect | null = null;
+    let cachedWhyWorkRect: DOMRect | null = null;
+    let cacheTime = 0;
+    const cacheDuration = 100;
+    const throttleDelay = 50; // Réduit pour moins de calculs
+    
     const handleScroll = () => {
-      const aboutSection = document.getElementById('about');
-      const whyWorkSection = document.getElementById('why-work-with-me');
-      const windowHeight = window.innerHeight;
+      const now = performance.now();
+      if (now - lastScrollTime < throttleDelay) return;
+      lastScrollTime = now;
       
-      let maxSpeed = 0.3; // Vitesse de base
-      let shouldAccelerate = false;
-      
-      // Vérifier la section About
-      if (aboutSection) {
-        const aboutRect = aboutSection.getBoundingClientRect();
-        if (aboutRect.top < windowHeight && aboutRect.bottom > 0) {
-          const scrollProgress = Math.max(0, Math.min(1, (windowHeight - aboutRect.top) / windowHeight));
-          const speed = 0.3 + (scrollProgress * scrollProgress * 1.5);
-          maxSpeed = Math.max(maxSpeed, speed);
-          shouldAccelerate = true;
+      requestAnimationFrame(() => {
+        // Utiliser le cache si récent
+        const now = performance.now();
+        if (now - cacheTime > cacheDuration) {
+          const aboutSection = document.getElementById('about');
+          const whyWorkSection = document.getElementById('why-work-with-me');
+          
+          if (aboutSection) cachedAboutRect = aboutSection.getBoundingClientRect();
+          if (whyWorkSection) cachedWhyWorkRect = whyWorkSection.getBoundingClientRect();
+          cacheTime = now;
         }
-      }
-      
-      // Vérifier la section WhyWorkWithMe
-      if (whyWorkSection) {
-        const whyWorkRect = whyWorkSection.getBoundingClientRect();
-        if (whyWorkRect.top < windowHeight && whyWorkRect.bottom > 0) {
-          const scrollProgress = Math.max(0, Math.min(1, (windowHeight - whyWorkRect.top) / windowHeight));
-          const speed = 0.3 + (scrollProgress * scrollProgress * 1.5);
-          maxSpeed = Math.max(maxSpeed, speed);
-          shouldAccelerate = true;
+        
+        const windowHeight = window.innerHeight;
+        let maxSpeed = 0.3; // Vitesse de base
+        let shouldAccelerate = false;
+        
+        // Vérifier la section About avec cache
+        if (cachedAboutRect) {
+          if (cachedAboutRect.top < windowHeight && cachedAboutRect.bottom > 0) {
+            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - cachedAboutRect.top) / windowHeight));
+            const speed = 0.3 + (scrollProgress * scrollProgress * 1.2);
+            maxSpeed = Math.max(maxSpeed, speed);
+            shouldAccelerate = true;
+          }
         }
-      }
-      
-      // Appliquer la vitesse calculée
-      scrollSpeedRef.current = maxSpeed;
-      
-      // Réinitialiser le timeout à chaque événement de scroll
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      
-      // Si on est dans une section et qu'on accélère, réinitialiser après 200ms d'inactivité
-      // Si on n'est pas dans une section, réinitialiser immédiatement
-      if (shouldAccelerate) {
-        scrollTimeout = setTimeout(() => {
+        
+        // Vérifier la section WhyWorkWithMe avec cache
+        if (cachedWhyWorkRect) {
+          if (cachedWhyWorkRect.top < windowHeight && cachedWhyWorkRect.bottom > 0) {
+            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - cachedWhyWorkRect.top) / windowHeight));
+            const speed = 0.3 + (scrollProgress * scrollProgress * 1.2);
+            maxSpeed = Math.max(maxSpeed, speed);
+            shouldAccelerate = true;
+          }
+        }
+        
+        scrollSpeedRef.current = maxSpeed;
+        
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+        
+        if (shouldAccelerate) {
+          scrollTimeout = setTimeout(() => {
+            scrollSpeedRef.current = 0.3;
+          }, 100);
+        } else {
           scrollSpeedRef.current = 0.3;
-        }, 100);
-      } else {
-        // Si aucune section n'est visible, réinitialiser immédiatement
-        scrollSpeedRef.current = 0.3;
-      }
+        }
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
