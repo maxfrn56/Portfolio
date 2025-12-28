@@ -39,20 +39,25 @@ export default function About() {
     <section 
       id="about" 
       ref={sectionRef}
-      className="relative bg-ocean-deep section-fullscreen pt-0 pb-0 md:py-20 px-4 md:px-6 retro-distort overflow-x-hidden overflow-y-visible md:overflow-y-hidden"
+      className="relative bg-ocean-deep section-fullscreen pt-0 pb-0 md:pt-32 md:pb-0 px-4 md:px-6 retro-distort overflow-x-hidden overflow-y-visible md:overflow-y-hidden"
       style={{ 
         zIndex: 10,
         contain: 'layout style paint', // Optimisation pour isoler les repaints
         willChange: 'transform', // Optimisation pour les animations
+        overflowX: 'hidden', // Forcer le masquage du scroll horizontal
       }}
     >
+      {/* Masquer la ligne de séparation de la section suivante sur desktop */}
+      <div className="hidden md:block absolute bottom-0 left-0 right-0 h-px bg-ocean-deep z-40" />
       {/* Ligne de séparation mobile */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent md:hidden" />
+      
+      {/* Slogan défilant horizontalement - au-dessus des carrés, en dehors du conteneur limité */}
+      <div className="fixed md:absolute left-0 right-0 w-screen top-0 md:-top-8 lg:-top-12 overflow-hidden md:overflow-hidden z-20" style={{ width: '100vw', left: '0', right: '0', pointerEvents: 'none' }}>
+        <SloganCarousel />
+      </div>
+      
       <div ref={containerRef} className="max-w-6xl mx-auto relative overflow-x-hidden md:mt-0" style={{ marginTop: '0' }}>
-        {/* Slogan défilant horizontalement - au-dessus des carrés */}
-        <div className="absolute left-1/2 -translate-x-1/2 w-screen top-0 md:-top-12 lg:-top-16 overflow-visible md:overflow-hidden z-20" style={{ maxWidth: '100vw', left: '50%', right: 'auto', top: '0' }}>
-          <SloganCarousel />
-        </div>
         
         {/* Grille 2x2 avec photo centrée - Masquée sur mobile */}
         <div className="hidden md:grid relative grid-cols-2 gap-4 md:gap-8 z-10 mt-4 md:mt-8 w-full">
@@ -358,7 +363,7 @@ function PhotoAlbum() {
   return (
     <div 
       ref={containerRef}
-      className="mt-24 md:mt-32 relative w-full overflow-x-hidden"
+      className="mt-24 md:mt-32 relative w-full overflow-x-hidden mb-0 md:mb-0 pb-0"
     >
       <h3 className="text-2xl md:text-4xl font-medium mb-6 md:mb-8 text-sand text-center">
         Mes Moments
@@ -393,7 +398,7 @@ function PhotoAlbum() {
             style={{
               width: `${photos.length * (photoWidth + photoGap) + photoGap}px`,
               paddingLeft: `${photoGap}px`,
-              paddingRight: isMobile ? `${photoGap}px` : `${containerWidth}px`,
+              paddingRight: isMobile ? `${photoGap}px` : `${photoGap}px`,
               minWidth: 'max-content',
             }}
           >
@@ -622,13 +627,14 @@ function SloganCarousel() {
   }, []);
 
   return (
-    <div className="relative overflow-visible md:overflow-hidden w-full py-0 md:py-0" style={{ contain: 'layout style paint', maxWidth: '100vw' }}>
+    <div className="relative overflow-visible md:overflow-visible w-full py-0 md:py-0" style={{ contain: 'layout style paint', width: '100vw', maxWidth: '100vw' }}>
       <div
         ref={containerRef}
         className="flex gap-4 md:gap-8 whitespace-nowrap"
         style={{
           willChange: 'transform',
           transform: 'translateZ(0)', // Force GPU acceleration
+          width: 'max-content',
         }}
       >
         {duplicatedSlogans.map((text, index) => (

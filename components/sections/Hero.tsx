@@ -463,7 +463,7 @@ function SloganSection() {
     >
       <div className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl text-white/70 md:text-white/90 leading-tight text-center md:text-left" style={{ fontFamily: 'var(--font-anton), sans-serif' }}>
         <div className="mb-0.5 text-sm md:text-base">Powered by</div>
-        <div className="mb-1 relative min-h-[1.4em] md:min-h-[1.2em] overflow-hidden">
+        <div className="mb-1 relative min-h-[1.4em] md:min-h-[1.5em] overflow-hidden md:overflow-visible">
           <AnimatePresence mode="sync">
             <AnimatedWord 
               key={isWavesFirst ? 'Waves' : 'Code'}
@@ -473,7 +473,7 @@ function SloganSection() {
           </AnimatePresence>
         </div>
         <div className="mb-0.5 text-sm md:text-base">Driven by</div>
-        <div className="relative min-h-[1.4em] md:min-h-[1.2em] overflow-hidden">
+        <div className="relative min-h-[1.4em] md:min-h-[1.5em] overflow-hidden md:overflow-visible">
           <AnimatePresence mode="sync">
             <AnimatedWord 
               key={isWavesFirst ? 'Code' : 'Waves'}
@@ -506,7 +506,7 @@ function AnimatedWord({ word, direction }: { word: string; direction: 'up' | 'do
         },
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 text-accent-blue font-semibold whitespace-nowrap min-w-[100px] md:min-w-[150px] lg:min-w-[180px]"
+      className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 text-accent-blue font-semibold whitespace-nowrap min-w-[100px] md:min-w-[150px] lg:min-w-[180px] w-full md:w-auto"
     >
       {word}
     </motion.span>
