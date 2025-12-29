@@ -24,6 +24,7 @@ export default function Footer() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-full h-full"
                 aria-label="Carte de la France - Localisation Biarritz"
+                style={{ overflow: 'visible' }}
               >
                 <g filter="url(#filter0_d_footer_map)">
                   <path 
@@ -34,15 +35,23 @@ export default function Footer() {
                     className="text-accent-blue/40"
                   />
                 </g>
-                <circle 
-                  cx="1150" 
-                  cy="4002.09" 
-                  r="120"
-                  fill="currentColor" 
-                  stroke="currentColor" 
-                  strokeWidth="6"
-                  className="text-accent-blue"
-                />
+                <a 
+                  href="https://share.google/YvLTvWvMgjqex1s1k"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-pointer"
+                  aria-label="Voir sur Google Maps"
+                >
+                  <circle 
+                    cx="1150" 
+                    cy="4002.09" 
+                    r="120"
+                    fill="currentColor" 
+                    stroke="currentColor" 
+                    strokeWidth="6"
+                    className="text-accent-blue"
+                  />
+                </a>
                 <defs>
                   <filter id="filter0_d_footer_map" x="0" y="0" width="4430.92" height="4612.59" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                     <feFlood floodOpacity="0" result="BackgroundImageFix"/>

@@ -42,7 +42,6 @@ export default function Contact() {
     setSubmitStatus('idle');
 
     try {
-      // TODO: Implémenter l'envoi via Server Action ou API Route
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
