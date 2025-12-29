@@ -47,7 +47,7 @@ export default function Portfolio() {
     <section
       ref={sectionRef}
       id="portfolio"
-      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-0 md:px-6 retro-distort section-separator overflow-x-visible md:overflow-x-hidden"
+      className="relative bg-ocean-deep section-fullscreen py-12 md:py-20 px-0 md:px-6 retro-distort section-separator overflow-x-hidden"
     >
       <div ref={contentRef} className="max-w-7xl mx-auto px-4 md:px-0">
         <motion.div
@@ -62,17 +62,17 @@ export default function Portfolio() {
         </motion.div>
 
         {/* Carrousel horizontal avec scroll */}
-        <div className="relative w-full">
+        <div className="relative w-full -mx-4 md:mx-0 px-4 md:px-0">
           <div
             ref={carouselRef}
-            className="flex gap-8 overflow-x-scroll overflow-y-hidden pb-4 hide-scrollbar items-stretch"
+            className="flex gap-8 overflow-x-auto overflow-y-hidden pb-4 hide-scrollbar items-stretch"
             style={{
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
-              touchAction: 'pan-x',
+              touchAction: 'pan-x pan-y',
               overscrollBehaviorX: 'contain',
+              overscrollBehaviorY: 'auto',
               width: '100%',
-              minWidth: '100%',
             }}
           >
             {projects.map((project, index) => (

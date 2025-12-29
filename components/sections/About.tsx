@@ -53,7 +53,7 @@ export default function About() {
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent md:hidden" />
       
       {/* Slogan défilant horizontalement - au-dessus des carrés, en dehors du conteneur limité */}
-      <div className="fixed md:absolute left-0 right-0 w-screen top-0 md:-top-8 lg:-top-12 overflow-hidden md:overflow-hidden z-20" style={{ width: '100vw', left: '0', right: '0', pointerEvents: 'none' }}>
+      <div className="absolute md:absolute left-0 right-0 w-screen top-16 md:-top-8 lg:-top-12 overflow-hidden md:overflow-hidden z-20" style={{ width: '100vw', left: '0', right: '0', pointerEvents: 'none' }}>
         <SloganCarousel />
       </div>
       
@@ -363,7 +363,7 @@ function PhotoAlbum() {
   return (
     <div 
       ref={containerRef}
-      className="mt-24 md:mt-32 relative w-full overflow-x-hidden mb-0 md:mb-0 pb-0"
+      className="mt-8 md:mt-32 relative w-full overflow-x-hidden mb-0 md:mb-0 pb-0"
     >
       <h3 className="text-2xl md:text-4xl font-medium mb-6 md:mb-8 text-sand text-center">
         Mes Moments
