@@ -48,6 +48,8 @@ export default function Contact() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         setSubmitStatus('success');
         reset();
@@ -59,10 +61,16 @@ export default function Contact() {
         });
       } else {
         setSubmitStatus('error');
+        // Afficher l'erreur dans la console pour le débogage
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Erreur API:', result);
+        }
       }
     } catch (error) {
       setSubmitStatus('error');
-      // Erreur silencieuse en production
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Erreur réseau:', error);
+      }
     } finally {
       setIsSubmitting(false);
     }

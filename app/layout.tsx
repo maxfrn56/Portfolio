@@ -82,6 +82,16 @@ export const metadata: Metadata = {
     description: "Développeur Web Freelance spécialisé en création de sites web personnalisés (vitrine, e-commerce, automatisation).",
     images: ["/images/logo-white.png"],
   },
+  icons: {
+    icon: [
+      { url: "/images/logo-white.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/logo-white.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/images/logo-white.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/images/logo-white.png",
+  },
   alternates: {
     canonical: "https://maximefarineau.com",
   },

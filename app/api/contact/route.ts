@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
     // Envoyer l'email via Resend
     const { data, error } = await resendInstance.emails.send({
-      from: 'Portfolio Contact <onboarding@resend.dev>', // Remplacez par votre domaine vérifié
+      from: 'Portfolio Contact <contact@maximefarineau.com>',
       to: [recipientEmail],
       replyTo: validatedData.email,
       subject: `Nouveau message de contact de ${validatedData.name}`,
