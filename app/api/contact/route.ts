@@ -5,6 +5,7 @@ import { Resend } from 'resend';
 const contactSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
+  phone: z.string().optional(),
   message: z.string().min(10),
 });
 
@@ -23,6 +24,7 @@ export async function POST(request: NextRequest) {
         console.log('📧 Message reçu (mode développement - email non envoyé):');
         console.log('Nom:', validatedData.name);
         console.log('Email:', validatedData.email);
+        console.log('Téléphone:', validatedData.phone || 'Non renseigné');
         console.log('Message:', validatedData.message);
         
         return NextResponse.json(
@@ -69,6 +71,7 @@ export async function POST(request: NextRequest) {
           <div style="margin-top: 20px;">
             <p><strong>Nom:</strong> ${validatedData.name}</p>
             <p><strong>Email:</strong> <a href="mailto:${validatedData.email}">${validatedData.email}</a></p>
+            ${validatedData.phone ? `<p><strong>Téléphone:</strong> <a href="tel:${validatedData.phone.replace(/\s/g, '')}">${validatedData.phone}</a></p>` : ''}
           </div>
           
           <div style="margin-top: 30px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #5a8fa3;">
@@ -86,6 +89,7 @@ Nouveau message de contact
 
 Nom: ${validatedData.name}
 Email: ${validatedData.email}
+${validatedData.phone ? `Téléphone: ${validatedData.phone}` : ''}
 
 Message:
 ${validatedData.message}

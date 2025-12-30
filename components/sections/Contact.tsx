@@ -11,6 +11,7 @@ import { useSectionTransition } from '@/hooks/useSectionTransition';
 const contactSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
   email: z.string().email('Email invalide'),
+  phone: z.string().optional(),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
 });
 
@@ -156,6 +157,23 @@ export default function Contact() {
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
+              )}
+            </div>
+
+            {/* Téléphone */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-sand mb-2">
+                Téléphone <span className="text-sand/50 text-xs">(optionnel)</span>
+              </label>
+              <input
+                {...register('phone')}
+                type="tel"
+                id="phone"
+                className="w-full px-4 py-3 bg-ocean-deep/50 border border-accent-blue/20 rounded-lg text-white placeholder-sand/50 focus:outline-none focus:border-accent-blue transition-colors"
+                placeholder="06 12 34 56 78"
+              />
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-400">{errors.phone.message}</p>
               )}
             </div>
 
