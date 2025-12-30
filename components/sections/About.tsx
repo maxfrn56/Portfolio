@@ -39,12 +39,9 @@ export default function About() {
     <section 
       id="about" 
       ref={sectionRef}
-      className="relative bg-ocean-deep section-fullscreen pt-0 pb-0 md:pt-32 md:pb-0 px-4 md:px-6 retro-distort overflow-x-hidden overflow-y-visible md:overflow-y-hidden"
+      className="relative bg-ocean-deep section-fullscreen pt-0 pb-0 md:pt-32 md:pb-0 px-4 md:px-6 retro-distort overflow-x-hidden"
       style={{ 
         zIndex: 10,
-        contain: 'layout style paint', // Optimisation pour isoler les repaints
-        willChange: 'transform', // Optimisation pour les animations
-        overflowX: 'hidden', // Forcer le masquage du scroll horizontal
       }}
     >
       {/* Masquer la ligne de séparation de la section suivante sur desktop */}
@@ -53,7 +50,7 @@ export default function About() {
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent md:hidden" />
       
       {/* Slogan défilant horizontalement - au-dessus des carrés, en dehors du conteneur limité */}
-      <div className="absolute md:absolute left-0 right-0 w-screen top-16 md:-top-8 lg:-top-12 overflow-hidden md:overflow-hidden z-20" style={{ width: '100vw', left: '0', right: '0', pointerEvents: 'none' }}>
+      <div className="fixed md:absolute left-0 right-0 top-20 md:-top-4 lg:-top-6 overflow-hidden z-20 pointer-events-none" style={{ width: '100%', maxWidth: '100vw' }}>
         <SloganCarousel />
       </div>
       
@@ -267,17 +264,30 @@ function PhotoAlbum() {
     const handleWheel = (e: WheelEvent) => {
       if (!isHovered) return;
       
-      // Détecter le scroll horizontal du trackpad
+      // Détecter le scroll horizontal du trackpad - laisser le comportement par défaut
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        // Scroll horizontal natif du trackpad
-        return; // Laisser le comportement par défaut
-      } else {
-        // Convertir le scroll vertical en horizontal
+        return;
+      }
+      
+      // Vérifier si on est dans la zone de scroll horizontal
+      const rect = scrollContainer.getBoundingClientRect();
+      const isInScrollArea = e.clientX >= rect.left && e.clientX <= rect.right &&
+                             e.clientY >= rect.top && e.clientY <= rect.bottom;
+      
+      if (!isInScrollArea) return;
+      
+      // Vérifier si on peut scroller horizontalement
+      const currentScroll = scrollContainer.scrollLeft;
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      const canScrollLeft = currentScroll > 0;
+      const canScrollRight = currentScroll < maxScroll - 1;
+      
+      // Convertir le scroll vertical en horizontal uniquement si on peut scroller
+      if ((canScrollLeft && e.deltaY > 0) || (canScrollRight && e.deltaY < 0)) {
         e.preventDefault();
-        const currentScroll = scrollContainer.scrollLeft;
         const newScroll = currentScroll + e.deltaY;
         scrollContainer.scrollTo({
-          left: newScroll,
+          left: Math.max(0, Math.min(newScroll, maxScroll)),
           behavior: 'smooth',
         });
       }
@@ -286,14 +296,16 @@ function PhotoAlbum() {
     // Optimiser handleScroll avec throttling pour réduire le jank
     let scrollRaf: number | null = null;
     let lastScrollTime = 0;
-    const throttleDelay = 16; // ~60fps
+    const throttleDelay = 32; // ~30fps pour réduire les calculs
     
     const handleScroll = () => {
       const now = performance.now();
       if (now - lastScrollTime < throttleDelay) return;
       lastScrollTime = now;
       
-      if (scrollRaf) return; // Éviter les appels multiples
+      if (scrollRaf) {
+        cancelAnimationFrame(scrollRaf);
+      }
       
       scrollRaf = requestAnimationFrame(() => {
         setScrollLeft(scrollContainer.scrollLeft);
@@ -302,8 +314,11 @@ function PhotoAlbum() {
       });
     };
     
-    // Initialiser maxScroll
-    handleScroll();
+    // Initialiser maxScroll une seule fois
+    const initMaxScroll = () => {
+      setMaxScroll(scrollContainer.scrollWidth - scrollContainer.clientWidth);
+    };
+    initMaxScroll();
 
     container.addEventListener('mouseenter', handleMouseEnter);
     container.addEventListener('mouseleave', handleMouseLeave);
@@ -315,8 +330,9 @@ function PhotoAlbum() {
       container.removeEventListener('mouseleave', handleMouseLeave);
       container.removeEventListener('wheel', handleWheel);
       scrollContainer.removeEventListener('scroll', handleScroll);
-      if (scrollRaf) {
+      if (scrollRaf !== null) {
         cancelAnimationFrame(scrollRaf);
+        scrollRaf = null;
       }
     };
   }, [isHovered]);
@@ -546,16 +562,23 @@ function SloganCarousel() {
     let cachedAboutRect: DOMRect | null = null;
     let cachedWhyWorkRect: DOMRect | null = null;
     let cacheTime = 0;
-    const cacheDuration = 100; // Cache pendant 100ms
-    const throttleDelay = 50; // Réduit à 50ms pour moins de calculs
+    const cacheDuration = 200; // Cache pendant 200ms pour réduire les calculs
+    const throttleDelay = 100; // Augmenté à 100ms pour moins de calculs
+    
+    let scrollRaf: number | null = null;
     
     const handleScroll = () => {
       const now = performance.now();
       if (now - lastScrollTime < throttleDelay) return;
       lastScrollTime = now;
       
+      // Annuler le RAF précédent si pas encore exécuté
+      if (scrollRaf) {
+        cancelAnimationFrame(scrollRaf);
+      }
+      
       // Utiliser requestAnimationFrame pour synchroniser avec le rendu
-      requestAnimationFrame(() => {
+      scrollRaf = requestAnimationFrame(() => {
         // Utiliser le cache si récent
         const now = performance.now();
         if (now - cacheTime > cacheDuration) {
@@ -607,6 +630,8 @@ function SloganCarousel() {
         } else {
           scrollSpeedRef.current = 0.15;
         }
+        
+        scrollRaf = null;
       });
     };
 
@@ -619,6 +644,9 @@ function SloganCarousel() {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      if (scrollRaf !== null) {
+        cancelAnimationFrame(scrollRaf);
+      }
       if (scrollTimeout) {
         clearTimeout(scrollTimeout);
       }
@@ -627,7 +655,7 @@ function SloganCarousel() {
   }, []);
 
   return (
-    <div className="relative overflow-visible md:overflow-visible w-full py-0 md:py-0" style={{ contain: 'layout style paint', width: '100vw', maxWidth: '100vw' }}>
+    <div className="relative overflow-hidden w-full py-0">
       <div
         ref={containerRef}
         className="flex gap-4 md:gap-8 whitespace-nowrap"

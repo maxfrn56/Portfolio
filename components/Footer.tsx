@@ -15,7 +15,7 @@ export default function Footer() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="flex justify-center md:justify-start"
+            className="flex flex-col items-center md:items-start"
           >
             <div className="w-64 h-72 md:w-80 md:h-96 flex-shrink-0 relative">
               <svg 
@@ -66,6 +66,9 @@ export default function Footer() {
                 </defs>
               </svg>
             </div>
+            <p className="text-sand/50 text-[10px] md:text-[11px] text-center md:text-left mt-1 whitespace-nowrap underline ml-[30px]">
+              Cliquez sur le point pour voir l&apos;emplacement exact
+            </p>
           </motion.div>
 
           {/* Adresse au centre */}

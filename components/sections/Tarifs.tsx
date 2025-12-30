@@ -9,8 +9,8 @@ const pricingPlans = [
     id: 'vitrine',
     title: 'Site Vitrine',
     description: 'Site web élégant pour présenter votre activité et vos services.',
-    price: 'À partir de',
-    priceAmount: '1 500€',
+    price: 'Sur devis',
+    priceAmount: '',
     features: [
       'Design sur mesure',
       'Responsive (mobile, tablette, desktop)',
@@ -25,8 +25,8 @@ const pricingPlans = [
     id: 'ecommerce',
     title: 'Site E-commerce',
     description: 'Boutique en ligne complète avec gestion des commandes et paiements.',
-    price: 'À partir de',
-    priceAmount: '3 500€',
+    price: 'Sur devis',
+    priceAmount: '',
     features: [
       'Catalogue produits illimité',
       'Paiement en ligne sécurisé',
@@ -36,7 +36,7 @@ const pricingPlans = [
       'Hébergement inclus (1 an)',
       'Formation à la gestion',
     ],
-    popular: true,
+    popular: false,
   },
   {
     id: 'personnalise',
@@ -98,7 +98,7 @@ export default function Tarifs() {
         </motion.div>
 
         {/* Grille de tarifs - Carrousel sur mobile, grille sur desktop */}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-visible md:overflow-visible pt-6 md:pt-8">
           <div 
             className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 overflow-x-auto pb-4 md:pb-0 hide-scrollbar"
             style={{
@@ -113,11 +113,7 @@ export default function Tarifs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className={`relative flex-shrink-0 w-[85vw] md:w-auto ${
-                  plan.popular
-                    ? 'md:-mt-4 md:mb-4'
-                    : ''
-                }`}
+                className="relative flex-shrink-0 w-[85vw] md:w-auto"
                 style={{ scrollSnapAlign: 'start' }}
               >
               {/* Badge "Populaire" */}
