@@ -402,7 +402,7 @@ export default function SalineProject() {
 
             {/* Bouton vers le site */}
             <a
-              href="#"
+              href="https://saline-frontend-production.up.railway.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="relative mt-6 block w-full px-8 py-4 text-center font-semibold text-white overflow-hidden rounded-lg border-2 border-accent-blue/30 bg-ocean-blue/20 backdrop-blur-sm group"
