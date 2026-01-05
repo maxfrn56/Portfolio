@@ -50,7 +50,7 @@ export default function About() {
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/40 to-transparent md:hidden" />
       
       {/* Slogan défilant horizontalement - au-dessus des carrés, en dehors du conteneur limité */}
-      <div className="fixed md:absolute left-0 right-0 top-20 md:-top-4 lg:-top-6 overflow-hidden z-20 pointer-events-none" style={{ width: '100%', maxWidth: '100vw' }}>
+      <div className="absolute left-0 right-0 top-20 md:-top-4 lg:-top-6 overflow-hidden z-20 pointer-events-none" style={{ width: '100%', maxWidth: '100vw' }}>
         <SloganCarousel />
       </div>
       
