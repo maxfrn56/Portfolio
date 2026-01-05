@@ -69,10 +69,7 @@ export default function Navbar() {
     
     // Puis scroller smooth vers la position exacte
     requestAnimationFrame(() => {
-      const currentElement = document.getElementById(id);
-      if (!currentElement) return;
-      
-      const finalPosition = currentElement.getBoundingClientRect().top + window.pageYOffset;
+      const finalPosition = element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: finalPosition,
         behavior: 'smooth'

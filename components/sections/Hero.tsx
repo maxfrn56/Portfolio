@@ -161,10 +161,7 @@ export default function Hero() {
     
     // Puis scroller smooth vers la position exacte
     requestAnimationFrame(() => {
-      const currentContactSection = document.getElementById('contact');
-      if (!currentContactSection) return;
-      
-      const finalPosition = currentContactSection.getBoundingClientRect().top + window.pageYOffset;
+      const finalPosition = contactSection.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: finalPosition,
         behavior: 'smooth'
