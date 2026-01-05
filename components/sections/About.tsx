@@ -264,21 +264,25 @@ function PhotoAlbum() {
     const handleWheel = (e: WheelEvent) => {
       if (!isHovered) return;
       
+      // Vérifier que scrollContainer existe toujours
+      const currentScrollContainer = scrollContainerRef.current;
+      if (!currentScrollContainer) return;
+      
       // Détecter le scroll horizontal du trackpad - laisser le comportement par défaut
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
         return;
       }
       
       // Vérifier si on est dans la zone de scroll horizontal
-      const rect = scrollContainer.getBoundingClientRect();
+      const rect = currentScrollContainer.getBoundingClientRect();
       const isInScrollArea = e.clientX >= rect.left && e.clientX <= rect.right &&
                              e.clientY >= rect.top && e.clientY <= rect.bottom;
       
       if (!isInScrollArea) return;
       
       // Vérifier si on peut scroller horizontalement
-      const currentScroll = scrollContainer.scrollLeft;
-      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      const currentScroll = currentScrollContainer.scrollLeft;
+      const maxScroll = currentScrollContainer.scrollWidth - currentScrollContainer.clientWidth;
       const canScrollLeft = currentScroll > 0;
       const canScrollRight = currentScroll < maxScroll - 1;
       
@@ -286,7 +290,7 @@ function PhotoAlbum() {
       if ((canScrollLeft && e.deltaY > 0) || (canScrollRight && e.deltaY < 0)) {
         e.preventDefault();
         const newScroll = currentScroll + e.deltaY;
-        scrollContainer.scrollTo({
+        currentScrollContainer.scrollTo({
           left: Math.max(0, Math.min(newScroll, maxScroll)),
           behavior: 'smooth',
         });
@@ -308,8 +312,14 @@ function PhotoAlbum() {
       }
       
       scrollRaf = requestAnimationFrame(() => {
-        setScrollLeft(scrollContainer.scrollLeft);
-        setMaxScroll(scrollContainer.scrollWidth - scrollContainer.clientWidth);
+        const currentScrollContainer = scrollContainerRef.current;
+        if (!currentScrollContainer) {
+          scrollRaf = null;
+          return;
+        }
+        
+        setScrollLeft(currentScrollContainer.scrollLeft);
+        setMaxScroll(currentScrollContainer.scrollWidth - currentScrollContainer.clientWidth);
         scrollRaf = null;
       });
     };
@@ -531,6 +541,12 @@ function SloganCarousel() {
     };
 
     const animate = () => {
+      // Vérifier que le container existe toujours
+      const currentContainer = containerRef.current;
+      if (!currentContainer) {
+        return;
+      }
+      
       // Arrêter l'animation si la section n'est pas visible
       if (!checkVisibility()) {
         isVisibleRef.current = false;
@@ -542,14 +558,14 @@ function SloganCarousel() {
       position += scrollSpeedRef.current;
       
       // Calculer la largeur d'un slogan (approximative)
-      const sloganWidth = container.scrollWidth / duplicatedSlogans.length;
+      const sloganWidth = currentContainer.scrollWidth / duplicatedSlogans.length;
       
       // Réinitialiser la position quand on dépasse un set complet
       if (position >= sloganWidth) {
         position = position - sloganWidth;
       }
       
-      container.style.transform = `translateX(-${position}px)`;
+      currentContainer.style.transform = `translateX(-${position}px)`;
       rafId = requestAnimationFrame(animate);
     };
 
@@ -579,6 +595,12 @@ function SloganCarousel() {
       
       // Utiliser requestAnimationFrame pour synchroniser avec le rendu
       scrollRaf = requestAnimationFrame(() => {
+        // Vérifier que le container existe toujours
+        if (!containerRef.current) {
+          scrollRaf = null;
+          return;
+        }
+        
         // Utiliser le cache si récent
         const now = performance.now();
         if (now - cacheTime > cacheDuration) {

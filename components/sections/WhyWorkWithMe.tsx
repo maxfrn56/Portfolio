@@ -221,6 +221,12 @@ function SkillsCarousel() {
     };
 
     const animate = () => {
+      // Vérifier que le container existe toujours
+      const currentContainer = containerRef.current;
+      if (!currentContainer) {
+        return;
+      }
+      
       // Arrêter l'animation si la section n'est pas visible
       if (!checkVisibility()) {
         rafId = requestAnimationFrame(animate);
@@ -234,7 +240,7 @@ function SkillsCarousel() {
         position = position - singleSetWidth;
       }
       
-      container.style.transform = `translateX(-${position}px)`;
+      currentContainer.style.transform = `translateX(-${position}px)`;
       rafId = requestAnimationFrame(animate);
     };
 
