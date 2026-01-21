@@ -425,7 +425,7 @@ function PhotoAlbum() {
                   >
                     <img
                       src={photo}
-                      alt={`Photo ${index + 1} - Développeur web à Biarritz, création de site web`}
+                      alt={`Photo ${index + 1} du portfolio - Moments de vie du développeur web Maxime Farineau à Biarritz, passionné de surf et création de sites web`}
                       className="w-full h-full object-cover"
                       style={{
                         display: 'block',

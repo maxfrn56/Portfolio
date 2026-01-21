@@ -81,7 +81,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         ) : project.image ? (
           <img
             src={project.image}
-            alt={project.title}
+            alt={`${project.title} - Projet de développement web par Maxime Farineau, développeur web à Biarritz`}
             className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
               isHovered ? 'blur-0' : 'blur-sm'
             }`}

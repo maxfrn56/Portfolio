@@ -238,6 +238,8 @@ export default function Hero() {
               transform: 'scale(1.1)',
               opacity: videoError ? 1 : 0,
             }}
+            role="img"
+            aria-label="Image de fond - Maxime Farineau, développeur web à Biarritz, création de site web sur mesure"
           />
         )}
 

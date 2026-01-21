@@ -103,7 +103,7 @@ export default function Loader() {
           >
             <motion.img
               src="/images/logo-white.png"
-              alt="Maxime Farineau"
+              alt="Logo Maxime Farineau - Développeur web freelance à Biarritz, création de site web"
               className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80"
               animate={shouldHide ? {
                 opacity: 0,
