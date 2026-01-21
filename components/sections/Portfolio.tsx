@@ -53,7 +53,7 @@ export default function Portfolio() {
         <motion.div
           className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-7xl font-medium mb-4 md:mb-6 text-sand">
+          <h2 className="text-3xl md:text-7xl font-medium mb-4 md:mb-6 text-sand" style={{ fontFamily: 'var(--font-polya)' }}>
             Mes autres projets
           </h2>
           <p className="text-base md:text-xl text-sand/80 max-w-2xl mx-auto">

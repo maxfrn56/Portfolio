@@ -267,6 +267,7 @@ export default function SalineProject() {
               <h2
                 ref={titleRef}
                 className="text-4xl md:text-5xl lg:text-6xl font-medium text-sand relative"
+                style={{ fontFamily: 'var(--font-polya)' }}
               >
                 Saline Project
               </h2>

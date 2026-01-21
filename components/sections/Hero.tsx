@@ -258,7 +258,7 @@ export default function Hero() {
         {/* Version mobile - Avec cadre (sans slogan) */}
         <div className="md:hidden flex flex-col items-center text-center w-full max-w-full mx-auto">
           {/* Nom - Au-dessus du cadre */}
-          <h1 className="text-5xl font-medium text-accent-blue mb-8 -mt-12" style={{ fontFamily: 'var(--font-polya)' }}>
+          <h1 className="text-5xl font-medium text-sand mb-8 -mt-12" style={{ fontFamily: 'var(--font-polya)' }}>
             Maxime Farineau
           </h1>
 
@@ -349,7 +349,7 @@ export default function Hero() {
           <div className="bg-ocean-deep/60 backdrop-blur-xl rounded-2xl p-8 border border-accent-blue/20 shadow-2xl">
             {/* Nom */}
             <div className="mb-3">
-              <h1 className="text-4xl lg:text-5xl font-medium text-accent-blue" style={{ fontFamily: 'var(--font-polya)' }}>
+              <h1 className="text-4xl lg:text-5xl font-medium text-sand" style={{ fontFamily: 'var(--font-polya)' }}>
                 Maxime Farineau
               </h1>
             </div>

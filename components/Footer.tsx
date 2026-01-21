@@ -79,7 +79,7 @@ export default function Footer() {
             transition={{ delay: 0.2 }}
             className="flex flex-col justify-center items-center md:items-start text-center md:text-left relative"
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-anton text-accent-blue mb-4 md:mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl text-accent-blue mb-4 md:mb-6" style={{ fontFamily: 'var(--font-polya)' }}>
               Ou me trouver
             </h2>
             <h3 className="text-accent-blue font-semibold mb-3 text-sm md:text-base uppercase tracking-wider">
