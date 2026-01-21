@@ -83,7 +83,7 @@ export default function Contact() {
         <motion.div
           className="text-center mb-16"
         >
-          <h2 className="text-5xl md:text-7xl font-medium mb-6 text-sand" style={{ fontFamily: 'var(--font-polya)' }}>
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 text-sand" style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}>
             Contact
           </h2>
           <p className="text-xl text-sand/80 max-w-2xl mx-auto mb-8">

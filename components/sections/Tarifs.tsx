@@ -89,7 +89,7 @@ export default function Tarifs() {
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-medium text-sand mb-3 md:mb-4" style={{ fontFamily: 'var(--font-polya)' }}>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-sand mb-3 md:mb-4" style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}>
             Tarifs
           </h2>
           <p className="text-base md:text-xl text-sand/80 max-w-2xl mx-auto">
@@ -145,7 +145,7 @@ export default function Tarifs() {
                 {/* Contenu */}
                 <div className="relative z-10">
                   {/* Titre */}
-                  <h3 className="text-xl md:text-3xl font-medium text-sand mb-2" style={{ fontFamily: 'var(--font-polya)' }}>
+                  <h3 className="text-xl md:text-3xl font-bold text-sand mb-2" style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}>
                     {plan.title}
                   </h3>
 

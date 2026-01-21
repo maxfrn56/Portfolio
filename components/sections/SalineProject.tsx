@@ -266,8 +266,8 @@ export default function SalineProject() {
               {/* Titre - visible par défaut */}
               <h2
                 ref={titleRef}
-                className="text-4xl md:text-5xl lg:text-6xl font-medium text-sand relative"
-                style={{ fontFamily: 'var(--font-polya)' }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-sand relative"
+                style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}
               >
                 Saline Project
               </h2>

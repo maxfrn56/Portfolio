@@ -375,7 +375,7 @@ function CinematicRevealTitle({ isInView }: { isInView: boolean }) {
 
   return (
     <div className="inline-block mb-6 relative overflow-hidden">
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-sand mb-4 relative inline-block" style={{ fontFamily: 'var(--font-polya)' }}>
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-sand mb-4 relative inline-block" style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}>
         {/* Container avec masque de révélation */}
         <span className="relative inline-block overflow-hidden">
           {/* Masque qui se déplace de gauche à droite */}
@@ -570,8 +570,8 @@ function ClarityPillar({ isInView, benefit, index }: { isInView: boolean; benefi
         
         <div className="flex-1">
           <motion.h3
-            className="text-2xl md:text-3xl font-semibold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-300"
-            style={{ fontFamily: 'var(--font-polya)' }}
+            className="text-2xl md:text-3xl font-bold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-300"
+            style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: baseDelay + 0.4, ease: [0.25, 0.1, 0.25, 1] }}

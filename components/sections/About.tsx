@@ -118,7 +118,7 @@ export default function About() {
                   
                   {/* Contenu avec shape-outside pour épouser le contour circulaire */}
                   <div className="relative z-10">
-                    <h3 className="text-xl md:text-3xl font-medium mb-2 md:mb-4 text-sand" style={{ fontFamily: 'var(--font-polya)' }}>
+                    <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4 text-sand" style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}>
                       {card.title}
                     </h3>
                     <p 
@@ -354,7 +354,7 @@ function PhotoAlbum() {
       ref={containerRef}
       className="mt-8 md:mt-32 relative w-full overflow-x-hidden mb-0 md:mb-0 pb-0"
     >
-      <h3 className="text-2xl md:text-4xl font-medium mb-6 md:mb-8 text-sand text-center" style={{ fontFamily: 'var(--font-polya)' }}>
+      <h3 className="text-2xl md:text-4xl font-bold mb-6 md:mb-8 text-sand text-center" style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}>
         Mes Moments
       </h3>
       
