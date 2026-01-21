@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Anton } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -19,6 +20,13 @@ const anton = Anton({
   weight: "400",
   variable: '--font-anton',
   display: 'swap',
+});
+
+const polya = localFont({
+  src: '../public/fonts/polya-regular.regular.otf',
+  variable: '--font-polya',
+  display: 'swap',
+  weight: '400',
 });
 
 export const metadata: Metadata = {
@@ -104,7 +112,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${anton.variable}`}>
+    <html lang="fr" className={`${inter.variable} ${anton.variable} ${polya.variable}`}>
       <body className="antialiased">
         <StructuredData />
         <Loader />
