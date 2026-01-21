@@ -705,7 +705,8 @@ function PerformancePillar({ isInView, benefit, index }: { isInView: boolean; be
         
         <div className="flex-1">
           <motion.h3
-            className="text-2xl md:text-3xl font-semibold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-300"
+            className="text-2xl md:text-3xl font-bold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-300"
+            style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}
             initial={{ opacity: 0, x: -10 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ 
@@ -827,7 +828,8 @@ function StrategyPillar({ isInView, benefit, index }: { isInView: boolean; benef
         <div className="flex-1">
           {/* Couche 2 : Titre */}
           <motion.h3
-            className="text-2xl md:text-3xl font-semibold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-300"
+            className="text-2xl md:text-3xl font-bold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-300"
+            style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: hovered ? -5 : 0 } : {}}
             transition={{ duration: hovered ? 0.3 : 0.6, delay: baseDelay + 0.7 }}
@@ -954,7 +956,8 @@ function ReliabilityPillar({ isInView, benefit, index }: { isInView: boolean; be
         
         <div className="flex-1">
           <motion.h3
-            className="text-2xl md:text-3xl font-semibold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-500"
+            className="text-2xl md:text-3xl font-bold text-sand mb-3 group-hover:text-accent-blue transition-colors duration-500"
+            style={{ fontFamily: 'var(--font-polya)', fontWeight: 'bold' }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ 
