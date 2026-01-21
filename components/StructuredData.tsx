@@ -17,21 +17,43 @@ export default function StructuredData() {
     ],
     address: {
       '@type': 'PostalAddress',
-      addressCountry: 'FR',
+      streetAddress: '44 avenue Reine Victoria',
       addressLocality: 'Biarritz',
+      postalCode: '64200',
+      addressRegion: 'Nouvelle-Aquitaine',
+      addressCountry: 'FR',
     },
   };
 
   const organizationSchema = {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
+    '@type': 'LocalBusiness',
+    '@id': 'https://maximefarineau.com',
     name: 'Maxime Farineau - Développeur Web',
-    description: 'Création de sites web personnalisés (vitrine, e-commerce, automatisation)',
+    alternateName: 'Création de site web Biarritz',
+    description: 'Développeur web freelance à Biarritz, spécialisé en création de sites web personnalisés. Création de site web sur mesure : sites vitrine, e-commerce, automatisation.',
     url: 'https://maximefarineau.com',
     email: 'contact@maximefarineau.com',
     telephone: '+33669347443',
-    areaServed: 'FR',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '44 avenue Reine Victoria',
+      addressLocality: 'Biarritz',
+      postalCode: '64200',
+      addressRegion: 'Nouvelle-Aquitaine',
+      addressCountry: 'FR',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '43.4832',
+      longitude: '-1.5596',
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'Biarritz',
+    },
     serviceType: [
+      'Création de site web',
       'Développement Web',
       'Création de site vitrine',
       'E-commerce',
@@ -39,6 +61,10 @@ export default function StructuredData() {
       'Intégration API',
     ],
     priceRange: '€€',
+    sameAs: [
+      'https://www.linkedin.com/in/maxime-farineau-5a2b3b228/',
+      'https://www.instagram.com/farinexx/',
+    ],
   };
 
   const websiteSchema = {

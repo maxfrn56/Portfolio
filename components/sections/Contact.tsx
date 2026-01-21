@@ -87,7 +87,7 @@ export default function Contact() {
             Contact
           </h2>
           <p className="text-xl text-sand/80 max-w-2xl mx-auto mb-8">
-            Discutons de votre projet et créons quelque chose d&apos;exceptionnel ensemble
+            Développeur web à Biarritz, je vous accompagne dans la création de votre site web sur mesure. Discutons de votre projet de création de site web et créons quelque chose d&apos;exceptionnel ensemble.
           </p>
           
           {/* Informations de contact */}

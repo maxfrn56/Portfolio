@@ -266,7 +266,7 @@ export default function Hero() {
           <div className="bg-ocean-blue/20 backdrop-blur-sm rounded-2xl p-6 border border-accent-blue/30 w-full max-w-sm">
             {/* Titre */}
             <div className="text-base font-bold text-sand/90 leading-relaxed mb-4">
-              Créateur de site web de A à Z 100% personnalisé
+              Développeur web à Biarritz - Création de site web sur mesure
             </div>
             
             {/* Technologies */}
@@ -356,7 +356,7 @@ export default function Hero() {
             
             {/* Titre */}
             <div className="text-xl lg:text-2xl font-light mb-4 text-sand/80">
-              Créateur de site web de A à Z 100% personnalisé
+              Développeur web à Biarritz - Création de site web sur mesure
             </div>
             
             {/* Technologies */}

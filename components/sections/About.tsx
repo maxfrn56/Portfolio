@@ -12,13 +12,13 @@ export default function About() {
     {
       id: 1,
       title: 'Surf & Océan',
-      content: 'Passionné de surf depuis des années, je puise mon énergie dans l\'océan. Installé entre Biarritz et les vagues de la Côte Basque, c\'est là que je trouve mon équilibre et mon inspiration.',
+      content: 'Passionné de surf depuis des années, je puise mon énergie dans l\'océan. Développeur web installé à Biarritz, je crée des sites web sur mesure pour les entreprises de la Côte Basque et au-delà. C\'est là que je trouve mon équilibre et mon inspiration pour la création de sites web.',
       delay: 0.1,
     },
     {
       id: 2,
       title: 'Développement Web',
-      content: 'Développeur web créatif, j\'adore transformer des idées en projets concrets. Entre front-end fluide et automatisations intelligentes, j\'aime créer des expériences utiles, propres et bien pensées.',
+      content: 'Développeur web créatif basé à Biarritz, j\'adore transformer des idées en projets concrets. Spécialisé en création de sites web personnalisés, je combine front-end fluide et automatisations intelligentes pour créer des expériences utiles, propres et bien pensées.',
       delay: 0.2,
     },
     {
@@ -164,7 +164,7 @@ export default function About() {
               >
                 <img
                   src="/images/portrait.jpg"
-                  alt="Maxime Farineau"
+                  alt="Maxime Farineau - Développeur web à Biarritz spécialisé en création de site web"
                   className="w-full h-full object-cover"
                   style={{
                     transform: 'translateZ(0)',
@@ -423,7 +423,7 @@ function PhotoAlbum() {
                   >
                     <img
                       src={photo}
-                      alt={`Photo ${index + 1}`}
+                      alt={`Photo ${index + 1} - Développeur web à Biarritz, création de site web`}
                       className="w-full h-full object-cover"
                       style={{
                         display: 'block',

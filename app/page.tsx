@@ -8,6 +8,7 @@ import About from "@/components/sections/About";
 import SalineProject from "@/components/sections/SalineProject";
 import Portfolio from "@/components/sections/Portfolio";
 import Tarifs from "@/components/sections/Tarifs";
+import FAQ from "@/components/sections/FAQ";
 import Contact from "@/components/sections/Contact";
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
       <SalineProject />
       <Portfolio />
       <Tarifs />
+      <FAQ />
       <Contact />
     </motion.div>
   );

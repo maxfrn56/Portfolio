@@ -35,11 +35,20 @@ export const metadata: Metadata = {
     default: "Maxime Farineau - Créateur de site web de A à Z 100% personnalisé",
     template: "%s | Maxime Farineau"
   },
-  description: "Développeur Web Freelance spécialisé en création de sites web personnalisés (vitrine, e-commerce, automatisation). Expert React, Next.js, Node.js, MySQL. Création de sites web modernes, performants et optimisés SEO.",
+  description: "Développeur web freelance à Biarritz, spécialisé en création de sites web personnalisés. Création de site web sur mesure : sites vitrine, e-commerce, automatisation. Expert développeur React, Next.js, Node.js. Création de sites web modernes, performants et optimisés SEO à Biarritz et en France.",
   keywords: [
-    "développeur web",
-    "freelance",
+    "création de site web",
+    "création site web",
     "créateur de site web",
+    "développeur",
+    "développeur web",
+    "développeur Biarritz",
+    "développeur web Biarritz",
+    "création site web Biarritz",
+    "création de site web Biarritz",
+    "développeur freelance",
+    "développeur web freelance",
+    "freelance",
     "développeur React",
     "Next.js",
     "Node.js",
@@ -48,11 +57,11 @@ export const metadata: Metadata = {
     "e-commerce",
     "développeur full stack",
     "création site web personnalisé",
-    "développeur web freelance",
     "automatisation",
     "intégration API",
-    "développeur web Biarritz",
-    "développeur web France"
+    "développeur web France",
+    "création site web Côte Basque",
+    "développeur web Côte Basque"
   ],
   authors: [{ name: "Maxime Farineau" }],
   creator: "Maxime Farineau",
@@ -72,9 +81,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: "https://maximefarineau.com",
-    siteName: "Maxime Farineau - Développeur Web",
-    title: "Maxime Farineau - Créateur de site web de A à Z 100% personnalisé",
-    description: "Développeur Web Freelance spécialisé en création de sites web personnalisés (vitrine, e-commerce, automatisation). Expert React, Next.js, Node.js, MySQL.",
+    siteName: "Maxime Farineau - Développeur Web à Biarritz",
+    title: "Développeur Web à Biarritz - Création de Site Web sur Mesure",
+    description: "Développeur web freelance à Biarritz, spécialisé en création de sites web personnalisés. Création de site web sur mesure : sites vitrine, e-commerce, automatisation. Expert développeur React, Next.js, Node.js.",
     images: [
       {
         url: "/images/logo-white.png",
@@ -86,8 +95,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Maxime Farineau - Créateur de site web de A à Z 100% personnalisé",
-    description: "Développeur Web Freelance spécialisé en création de sites web personnalisés (vitrine, e-commerce, automatisation).",
+    title: "Développeur Web à Biarritz - Création de Site Web sur Mesure",
+    description: "Développeur web freelance à Biarritz, spécialisé en création de sites web personnalisés. Création de site web sur mesure : sites vitrine, e-commerce.",
     images: ["/images/logo-white.png"],
   },
   icons: {
