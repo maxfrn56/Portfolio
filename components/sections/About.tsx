@@ -200,7 +200,9 @@ function PhotoAlbum() {
   const [maxScroll, setMaxScroll] = useState(0);
 
   const photos = [
+    '/images/classeur-1.jpg',
     '/images/Classeur-2.jpg',
+    '/images/classeur-3.jpg',
     '/images/Classeur-4.jpg',
     '/images/Classeur-5.jpg',
     '/images/Classeur-6.jpg',
